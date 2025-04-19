@@ -2,8 +2,8 @@ import os
 import chess
 import chess.pgn
 import chess.engine
-import concurrent.futures
 import numpy as np
+import ray
 
 from typing import Dict
 from training.timer import Timer
@@ -13,7 +13,11 @@ from core.coords_converter import ChessCoordsConverter
 
 stockfish_path = r'evaluation\stockfish\stockfish-windows-x86-64-avx2.exe'
 
-def _evaluate_position(args) -> tuple[chess.Move, float]:
+# Khởi tạo Ray
+ray.init(num_cpus=8)  # Số CPU cores muốn sử dụng
+
+@ray.remote
+def _evaluate_position(args) -> tuple[str, float]:
     fen, move_uci, time_limit = args
     board = chess.Board(fen)
     move = chess.Move.from_uci(move_uci)
@@ -30,25 +34,27 @@ def _evaluate_position(args) -> tuple[chess.Move, float]:
         return move_uci, score / 100 if score is not None else 0
     except Exception as e:
         return move_uci, 0
-    
+
 def normalize_score(scores: Dict[str, float]) -> Dict[str, float]:
     score_values = np.array(list(scores.values()))
     exp_scores = np.exp(score_values - np.max(score_values))
     normalized_score = exp_scores / np.sum(exp_scores)
     return dict(zip(scores.keys(), normalized_score))
 
-def parallel_evaluate_legal_moves(board: chess.Board, time_limit: float = 0.1, max_workers: int = 8) -> Dict[str, float]:
+def parallel_evaluate_legal_moves(board: chess.Board, time_limit: float = 0.1) -> Dict[str, float]:
     fen, legal_moves = board.fen(), list(board.legal_moves)
     move_args = [(fen, move.uci(), time_limit) for move in legal_moves]
 
+    # Tạo các remote task
+    futures = [_evaluate_position.remote(args) for args in move_args]
+    
+    # Chờ kết quả và thu thập
     move_scores = {}
-    with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
-        results = executor.map(_evaluate_position, move_args)
-        for move_uci, score in results:
-            move_scores[move_uci] = score
+    results = ray.get(futures)
+    for move_uci, score in results:
+        move_scores[move_uci] = score
     
     return normalize_score(move_scores)
-
 
 def split_pgn_file(input_pgn_path: str, output_dir: str = None) -> None:
     """

@@ -227,7 +227,7 @@ def train_model_lazyload(model: ChessNet = None, optimizer = None, scheduler = N
                          batch_size: int = 128, device: str = "cuda", save_dir: str = ".",
                          initial_lr: float = 0.001, min_lr: float = 1e-6):
     try:
-        bess_loss = float('inf')
+        best_loss = float('inf')
 
         if model is None:
             print("🔄 Creating new model...")
