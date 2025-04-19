@@ -1,3 +1,4 @@
+import chess
 import torch
 from core.model import ChessNet
 import training.utils as utils
