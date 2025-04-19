@@ -150,5 +150,5 @@ def get_replay_buffer_from_pgn(pgn_path: str) -> ReplayBuffer:
 if __name__ == "__main__":
     timer = Timer()
     timer.start()
-    rb = get_replay_buffer_from_pgn(r"sample_data\fen_database\game_1.pgn")
+    rb = get_replay_buffer_from_pgn(r"sample_data\ficsgame_2024_chess2000\game_1.pgn")
     timer.end()
