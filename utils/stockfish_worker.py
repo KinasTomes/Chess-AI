@@ -41,6 +41,6 @@ def parallel_evaluate_legal_moves(board: chess.Board, workers: list, time_limit:
         worker = workers[i % len(workers)]  # Phân chia đều vào các worker
         futures.append(worker.evaluate.remote(fen, move_uci))
 
-    results = ray.get(futures)
+    results = ray.get(futures, timeout=120)
     move_scores = {move_uci: score for move_uci, score in results}
     return normalize_score(move_scores)
