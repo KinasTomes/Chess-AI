@@ -370,3 +370,92 @@ def train_model_lazyload(model: ChessNet = None, optimizer = None, scheduler = N
     except Exception as e:
         print(f"❌ Training failed: {str(e)}")
         raise
+
+def load_training_model(path: str, model: ChessNet, device: str = "cuda"):
+    """
+    Load model từ checkpoint để tiếp tục training.
+    Hàm này sẽ load toàn bộ trạng thái bao gồm model, optimizer và scheduler.
+    
+    Args:
+        path: Đường dẫn tới file checkpoint
+        model: Instance của model cần load weights vào
+        device: Device để load model (cuda/cpu)
+    
+    Returns:
+        tuple: (model, optimizer, scheduler, start_part, best_loss)
+    """
+    try:
+        checkpoint = torch.load(path, map_location=device)
+        
+        # Load model state
+        if isinstance(model, torch.nn.DataParallel):
+            model.module.load_state_dict(checkpoint['model_state_dict'])
+        else:
+            model.load_state_dict(checkpoint['model_state_dict'])
+        model = model.to(device)
+        
+        # Khởi tạo optimizer
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-4)
+        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+        
+        # Khởi tạo scheduler
+        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+            optimizer, mode='min', factor=0.5, patience=2,
+            min_lr=1e-6, verbose=True
+        )
+        if 'scheduler_state_dict' in checkpoint:
+            scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
+        
+        # Lấy thông tin training
+        start_part = checkpoint.get('part', 0) + 1  # Bắt đầu từ part tiếp theo
+        best_loss = checkpoint.get('loss', float('inf'))
+        
+        print(f"✅ Loaded training checkpoint from {path}")
+        print(f"   └── Part: {start_part-1}")
+        print(f"   └── Best loss: {best_loss:.4f}")
+        print(f"   └── Learning rate: {optimizer.param_groups[0]['lr']:.2e}")
+        
+        return model, optimizer, scheduler, start_part, best_loss
+        
+    except Exception as e:
+        print(f"❌ Error loading training checkpoint: {str(e)}")
+        raise
+
+def load_predict_model(path: str, model: ChessNet, device: str = "cuda"):
+    """
+    Load model chỉ để predict, không cần load optimizer và scheduler.
+    Hàm này nhẹ hơn và nhanh hơn load_training_model.
+    
+    Args:
+        path: Đường dẫn tới file checkpoint
+        model: Instance của model cần load weights vào
+        device: Device để load model (cuda/cpu)
+    
+    Returns:
+        ChessNet: Model đã load weights
+    """
+    try:
+        # Load với map_location để có thể load model từ GPU sang CPU hoặc ngược lại
+        checkpoint = torch.load(path, map_location=device)
+        
+        # Load model state
+        if isinstance(model, torch.nn.DataParallel):
+            model.module.load_state_dict(checkpoint['model_state_dict'])
+        else:
+            model.load_state_dict(checkpoint['model_state_dict'])
+        
+        # Chuyển model sang device phù hợp
+        model = model.to(device)
+        
+        # Chuyển sang eval mode
+        model.eval()
+        
+        print(f"✅ Loaded model for prediction from {path}")
+        if 'loss' in checkpoint:
+            print(f"   └── Model loss: {checkpoint['loss']:.4f}")
+        
+        return model
+        
+    except Exception as e:
+        print(f"❌ Error loading model for prediction: {str(e)}")
+        raise
