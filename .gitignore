@@ -1,3 +1,5 @@
 model_checkpoint/
 __pycache__/
 buffer_data/
+evaluation/
+sample_data/

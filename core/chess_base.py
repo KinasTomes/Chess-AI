@@ -54,6 +54,10 @@ class ChessEnv(gym.Env):
             black_player_id: ID for black player, default 2.
             has_resign_move: Whether to allow resigning, default True.
             id: Environment ID or name.
+
+        Note:
+            - If white_player_id = 2, black will play first
+            - If white_player_id = 1, white will play first (traditional chess)
         """
         assert black_player_id != white_player_id != 0, 'player ids can not be the same, and can not be zero'
 
@@ -79,9 +83,6 @@ class ChessEnv(gym.Env):
         # Initialize piece boards (one for each piece type)
         self.piece_boards = np.zeros((7, self.board_size, self.board_size), dtype=np.int8)
 
-        # Initialize the board with the starting position
-        self._initialize_board()
-
         # Set up action and observation spaces
         self.action_dim = 4864  # Total number of possible moves in chess
         self.action_space = Discrete(self.action_dim + (1 if has_resign_move else 0))
@@ -95,8 +96,18 @@ class ChessEnv(gym.Env):
         self.last_player = None
         self.steps = 0
         self.winner = None
-        self.to_play = self.white_player
-        self.opponent_player = self.black_player
+
+        # Initialize the board with the starting position
+        self._initialize_board()
+
+        if (self.white_player == 2):
+            self.chess_board.turn = chess.BLACK
+            self.to_play = self.black_player
+            self.opponent_player = self.white_player
+        else:
+            self.chess_board.turn = chess.WHITE
+            self.to_play = self.white_player
+            self.opponent_player = self.black_player
 
         # Track game state
         self.is_check = False
@@ -145,7 +156,6 @@ class ChessEnv(gym.Env):
         self._place_piece(ROOK, 0, 7, self.black_player)
         for i in range(8):
             self._place_piece(PAWN, 1, i, self.black_player)
-
 
     def _place_piece(self, piece_type: int, rank: int, file: int, player: int):
         """Place a piece on the board."""

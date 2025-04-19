@@ -2,6 +2,10 @@ import torch
 from core.model import ChessNet
 import training.utils as utils
 
+def get_legal_moves(fen, stockfish_path):
+    board = chess.Board(fen)
+    return [move.uci() for move in board.legal_moves]
+
 if __name__ == "__main__":
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model = ChessNet().to(device)
