@@ -15,13 +15,15 @@ if __name__ == "__main__":
     env = ChessEnv()
     env.reset()
 
-    for step_num in range(10):
+    move_count = 0
+
+    while not env.is_game_over():
         state = env._observation()
         legal_moves = list(env.chess_board.legal_moves)
 
         # Tạo mask
         mask = np.zeros(env.action_dim, dtype=np.float32)
-        move_idx_map = {}  # Map index -> move (để chọn move tốt nhất)
+        move_idx_map = {}
         for move in legal_moves:
             idx = env.chess_coords.move_to_index(move)
             mask[idx] = 1
@@ -36,12 +38,20 @@ if __name__ == "__main__":
 
         # Zero-out các action không hợp lệ
         legal_policy = policy * mask
-        best_move_idx = np.argmax(legal_policy)
-        best_move = move_idx_map[best_move_idx]  # Lấy move từ index
 
-        # Thực hiện nước đi
-        env.step(env.chess_coords.move_to_index(chess.Move.from_uci(best_move.uci())))
+        if move_count < 30:
+            # Sampling theo softmax với temperature
+            temperature = 1.0
+            logits = legal_policy / temperature
+            exp_logits = np.exp(logits - np.max(logits)) * mask  # mask lại để tránh illegal move
+            probs = exp_logits / np.sum(exp_logits)
+            best_move_idx = np.random.choice(len(probs), p=probs)
+        else:
+            # Chọn greedy move
+            best_move_idx = np.argmax(legal_policy)
 
-        # In thông tin
-        print(f"\nStep {step_num + 1}: Move {best_move.uci()} made.")
-        # print(env.chess_board)  # In ra board hiện tại
+        best_move = move_idx_map[best_move_idx]
+        print(f"Move {move_count+1}: {best_move} ({legal_policy[best_move_idx]:.4f})")
+
+        env.step(env.chess_coords.move_to_index(best_move))
+        move_count += 1
