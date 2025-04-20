@@ -15,7 +15,7 @@ from utils.stockfish_worker import StockfishWorker, parallel_evaluate_legal_move
 
 stockfish_path = r'evaluation\stockfish\stockfish-windows-x86-64-avx2.exe'
 
-def split_pgn_file(input_pgn_path: str, output_dir: str = None) -> None:
+def split_pgn_file(input_pgn_path: str, nums_game: int, output_dir: str = None) -> None:
     """
     Tách một file PGN lớn thành các file PGN nhỏ, mỗi file chứa một ván cờ.
 
@@ -28,7 +28,7 @@ def split_pgn_file(input_pgn_path: str, output_dir: str = None) -> None:
 
     with open(input_pgn_path, encoding='utf-8') as pgn_file:
         game_idx = 1
-        while game_idx < 2000:
+        while game_idx < nums_game:
             game = chess.pgn.read_game(pgn_file)
             if game is None:
                 break
@@ -241,11 +241,10 @@ if __name__ == "__main__":
     timer = Timer()
     timer.start()
     
-    # Xử lý tất cả các file PGN trong thư mục
-    process_pgn_directory_to_buffer(
-        directory_path="sample_data/fen_database",
-        save_dir="buffer_data",
-        samples_per_file=10000
+    split_pgn_file(
+        input_pgn_path=r'sample_data\ficsgamesdb_2024_chess2000.pgn',
+        nums_game=2001,
+        output_dir=r'sample_data\ficsgame_2024_chess2000'
     )
     
     timer.end()
