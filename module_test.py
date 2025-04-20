@@ -3,55 +3,65 @@ import chess
 import numpy as np
 from core.model import ChessNet
 from training.utils import load_predict_model
-from core.chess_base import ChessEnv  # Lớp môi trường cờ
+from core.chess_base import ChessEnv
+from core.mcts import MCTS
 
 if __name__ == "__main__":
+    # Khởi tạo device
     device = "cuda" if torch.cuda.is_available() else "cpu"
+    
+    # Khởi tạo và load model
     model = ChessNet()
     model = load_predict_model(r"model_checkpoint\best_model.pth", model)
     model.to(device)
     model.eval()
 
+    # Khởi tạo môi trường
     env = ChessEnv()
     env.reset()
 
+    # Khởi tạo MCTS với model đã load
+    mcts = MCTS(
+        neural_net=model,
+        converter=env.chess_coords,
+        env=env,
+        simulations=200,  # Số lượt mô phỏng cho mỗi nước đi
+        max_depth=30,     # Độ sâu tối đa cho mỗi mô phỏng
+        device=device,
+        num_processes=4,  # Số process cho parallel search
+        use_model=True    # Sử dụng model để dự đoán nước đi
+    )
+
     move_count = 0
+    print("🎮 Bắt đầu game tự đánh...")
 
     while not env.is_game_over():
-        state = env._observation()
-        legal_moves = list(env.chess_board.legal_moves)
-
-        # Tạo mask
-        mask = np.zeros(env.action_dim, dtype=np.float32)
-        move_idx_map = {}
-        for move in legal_moves:
-            idx = env.chess_coords.move_to_index(move)
-            mask[idx] = 1
-            move_idx_map[idx] = move
-
-        input_tensor = torch.tensor(state, dtype=torch.float32).unsqueeze(0).to(device)
-        mask_tensor = torch.tensor(mask, dtype=torch.float32).unsqueeze(0).to(device)
-
-        with torch.no_grad():
-            policy, _ = model(input_tensor, mask_tensor)
-            policy = policy.squeeze().cpu().numpy()
-
-        # Zero-out các action không hợp lệ
-        legal_policy = policy * mask
-
-        if move_count < 30:
-            # Sampling theo softmax với temperature
-            temperature = 1.0
-            logits = legal_policy / temperature
-            exp_logits = np.exp(logits - np.max(logits)) * mask  # mask lại để tránh illegal move
-            probs = exp_logits / np.sum(exp_logits)
-            best_move_idx = np.random.choice(len(probs), p=probs)
+        # In trạng thái bàn cờ
+        
+        # Chạy MCTS để tìm nước đi tốt nhất
+        pi = mcts.run(env.chess_board)
+        
+        # Chọn nước đi dựa trên policy từ MCTS
+        valid_moves = env.legal_actions
+        pi_valid = pi * valid_moves
+        
+        if np.sum(pi_valid) > 0:
+            if move_count < 30:  # Temperature = 1 cho 30 nước đầu
+                pi_valid = pi_valid / np.sum(pi_valid)
+                action = np.random.choice(len(pi), p=pi_valid)
+            else:  # Temperature = 0 (greedy) sau 30 nước
+                action = np.argmax(pi_valid)
         else:
-            # Chọn greedy move
-            best_move_idx = np.argmax(legal_policy)
+            action = np.random.choice(np.where(valid_moves)[0])
 
-        best_move = move_idx_map[best_move_idx]
-        print(f"Move {move_count+1}: {best_move} ({legal_policy[best_move_idx]:.4f})")
-
-        env.step(env.chess_coords.move_to_index(best_move))
+        # Thực hiện nước đi
+        move_uci = env.chess_coords.index_to_move(action)
+        print(f"Move {move_count+1}: {move_uci} (policy: {pi[action]:.4f})")
+        
+        env.step(action)
         move_count += 1
+
+    # In kết quả game
+    result = env.chess_board.result()
+    print(f"\n🏁 Game kết thúc sau {move_count} nước đi")
+    print(f"Kết quả: {result}")
