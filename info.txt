@@ -1,0 +1,2947 @@
+Node ID: 0 (Parent: None)
+Move: root
+Visits: 200
+Value: -0.001
+Prior: 0.000
+Virtual Loss: 597
+------------------------------
+Node ID: 1 (Parent: 0)
+Move: g1h3
+Visits: 9
+Value: 0.001
+Prior: 0.046
+Virtual Loss: 24
+------------------------------
+Node ID: 301 (Parent: 1)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 302 (Parent: 1)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 303 (Parent: 1)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 304 (Parent: 1)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 305 (Parent: 1)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 306 (Parent: 1)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 307 (Parent: 1)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 308 (Parent: 1)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 309 (Parent: 1)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 310 (Parent: 1)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 311 (Parent: 1)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 312 (Parent: 1)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 313 (Parent: 1)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 314 (Parent: 1)
+Move: g7g5
+Visits: 0
+Value: 0.000
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 315 (Parent: 1)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 316 (Parent: 1)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 317 (Parent: 1)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 318 (Parent: 1)
+Move: c7c5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 319 (Parent: 1)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 320 (Parent: 1)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 2 (Parent: 0)
+Move: g1f3
+Visits: 10
+Value: 0.001
+Prior: 0.053
+Virtual Loss: 27
+------------------------------
+Node ID: 141 (Parent: 2)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 142 (Parent: 2)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 143 (Parent: 2)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 144 (Parent: 2)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 145 (Parent: 2)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 146 (Parent: 2)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 147 (Parent: 2)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 148 (Parent: 2)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 149 (Parent: 2)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 150 (Parent: 2)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 151 (Parent: 2)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 152 (Parent: 2)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 153 (Parent: 2)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 154 (Parent: 2)
+Move: g7g5
+Visits: 1
+Value: -0.004
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 155 (Parent: 2)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 156 (Parent: 2)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 157 (Parent: 2)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 158 (Parent: 2)
+Move: c7c5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 159 (Parent: 2)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 160 (Parent: 2)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 3 (Parent: 0)
+Move: b1c3
+Visits: 11
+Value: 0.001
+Prior: 0.055
+Virtual Loss: 30
+------------------------------
+Node ID: 81 (Parent: 3)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 82 (Parent: 3)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 83 (Parent: 3)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 84 (Parent: 3)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 85 (Parent: 3)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 86 (Parent: 3)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 87 (Parent: 3)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 88 (Parent: 3)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 89 (Parent: 3)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 90 (Parent: 3)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 91 (Parent: 3)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 92 (Parent: 3)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 93 (Parent: 3)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 94 (Parent: 3)
+Move: g7g5
+Visits: 1
+Value: -0.004
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 95 (Parent: 3)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 96 (Parent: 3)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 97 (Parent: 3)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 98 (Parent: 3)
+Move: c7c5
+Visits: 1
+Value: -0.004
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 99 (Parent: 3)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 100 (Parent: 3)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 4 (Parent: 0)
+Move: b1a3
+Visits: 10
+Value: 0.001
+Prior: 0.052
+Virtual Loss: 27
+------------------------------
+Node ID: 161 (Parent: 4)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 162 (Parent: 4)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 163 (Parent: 4)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 164 (Parent: 4)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 165 (Parent: 4)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 166 (Parent: 4)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 167 (Parent: 4)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 168 (Parent: 4)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 169 (Parent: 4)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 170 (Parent: 4)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 171 (Parent: 4)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 172 (Parent: 4)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 173 (Parent: 4)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 174 (Parent: 4)
+Move: g7g5
+Visits: 1
+Value: -0.004
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 175 (Parent: 4)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 176 (Parent: 4)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 177 (Parent: 4)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 178 (Parent: 4)
+Move: c7c5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 179 (Parent: 4)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 180 (Parent: 4)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 5 (Parent: 0)
+Move: h2h3
+Visits: 11
+Value: 0.001
+Prior: 0.053
+Virtual Loss: 30
+------------------------------
+Node ID: 101 (Parent: 5)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 102 (Parent: 5)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 103 (Parent: 5)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 104 (Parent: 5)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 105 (Parent: 5)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 106 (Parent: 5)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 107 (Parent: 5)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 108 (Parent: 5)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 109 (Parent: 5)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 110 (Parent: 5)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 111 (Parent: 5)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 112 (Parent: 5)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 113 (Parent: 5)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 114 (Parent: 5)
+Move: g7g5
+Visits: 1
+Value: -0.004
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 115 (Parent: 5)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 116 (Parent: 5)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 117 (Parent: 5)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 118 (Parent: 5)
+Move: c7c5
+Visits: 1
+Value: -0.004
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 119 (Parent: 5)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 120 (Parent: 5)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 6 (Parent: 0)
+Move: g2g3
+Visits: 10
+Value: 0.001
+Prior: 0.053
+Virtual Loss: 27
+------------------------------
+Node ID: 121 (Parent: 6)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 122 (Parent: 6)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 123 (Parent: 6)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 124 (Parent: 6)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 125 (Parent: 6)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 126 (Parent: 6)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 127 (Parent: 6)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 128 (Parent: 6)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 129 (Parent: 6)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 130 (Parent: 6)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 131 (Parent: 6)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 132 (Parent: 6)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 133 (Parent: 6)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 134 (Parent: 6)
+Move: g7g5
+Visits: 1
+Value: -0.004
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 135 (Parent: 6)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 136 (Parent: 6)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 137 (Parent: 6)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 138 (Parent: 6)
+Move: c7c5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 139 (Parent: 6)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 140 (Parent: 6)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 7 (Parent: 0)
+Move: f2f3
+Visits: 9
+Value: 0.001
+Prior: 0.046
+Virtual Loss: 24
+------------------------------
+Node ID: 321 (Parent: 7)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 322 (Parent: 7)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 323 (Parent: 7)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 324 (Parent: 7)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 325 (Parent: 7)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 326 (Parent: 7)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 327 (Parent: 7)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 328 (Parent: 7)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 329 (Parent: 7)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 330 (Parent: 7)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 331 (Parent: 7)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 332 (Parent: 7)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 333 (Parent: 7)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 334 (Parent: 7)
+Move: g7g5
+Visits: 0
+Value: 0.000
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 335 (Parent: 7)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 336 (Parent: 7)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 337 (Parent: 7)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 338 (Parent: 7)
+Move: c7c5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 339 (Parent: 7)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 340 (Parent: 7)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 8 (Parent: 0)
+Move: e2e3
+Visits: 10
+Value: 0.001
+Prior: 0.049
+Virtual Loss: 27
+------------------------------
+Node ID: 221 (Parent: 8)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 222 (Parent: 8)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 223 (Parent: 8)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 224 (Parent: 8)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 225 (Parent: 8)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 226 (Parent: 8)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 227 (Parent: 8)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 228 (Parent: 8)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 229 (Parent: 8)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 230 (Parent: 8)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 231 (Parent: 8)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 232 (Parent: 8)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 233 (Parent: 8)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 234 (Parent: 8)
+Move: g7g5
+Visits: 1
+Value: -0.004
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 235 (Parent: 8)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 236 (Parent: 8)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 237 (Parent: 8)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 238 (Parent: 8)
+Move: c7c5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 239 (Parent: 8)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 240 (Parent: 8)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 9 (Parent: 0)
+Move: d2d3
+Visits: 11
+Value: 0.001
+Prior: 0.056
+Virtual Loss: 30
+------------------------------
+Node ID: 61 (Parent: 9)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 62 (Parent: 9)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 63 (Parent: 9)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 64 (Parent: 9)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 65 (Parent: 9)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 66 (Parent: 9)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 67 (Parent: 9)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 68 (Parent: 9)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 69 (Parent: 9)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 70 (Parent: 9)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 71 (Parent: 9)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 72 (Parent: 9)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 73 (Parent: 9)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 74 (Parent: 9)
+Move: g7g5
+Visits: 1
+Value: -0.004
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 75 (Parent: 9)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 76 (Parent: 9)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 77 (Parent: 9)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 78 (Parent: 9)
+Move: c7c5
+Visits: 1
+Value: -0.004
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 79 (Parent: 9)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 80 (Parent: 9)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 10 (Parent: 0)
+Move: c2c3
+Visits: 9
+Value: 0.001
+Prior: 0.045
+Virtual Loss: 24
+------------------------------
+Node ID: 341 (Parent: 10)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 342 (Parent: 10)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 343 (Parent: 10)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 344 (Parent: 10)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 345 (Parent: 10)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 346 (Parent: 10)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 347 (Parent: 10)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 348 (Parent: 10)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 349 (Parent: 10)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 350 (Parent: 10)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 351 (Parent: 10)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 352 (Parent: 10)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 353 (Parent: 10)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 354 (Parent: 10)
+Move: g7g5
+Visits: 0
+Value: 0.000
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 355 (Parent: 10)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 356 (Parent: 10)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 357 (Parent: 10)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 358 (Parent: 10)
+Move: c7c5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 359 (Parent: 10)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 360 (Parent: 10)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 11 (Parent: 0)
+Move: b2b3
+Visits: 10
+Value: 0.001
+Prior: 0.048
+Virtual Loss: 27
+------------------------------
+Node ID: 281 (Parent: 11)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 282 (Parent: 11)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 283 (Parent: 11)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 284 (Parent: 11)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 285 (Parent: 11)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 286 (Parent: 11)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 287 (Parent: 11)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 288 (Parent: 11)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 289 (Parent: 11)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 290 (Parent: 11)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 291 (Parent: 11)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 292 (Parent: 11)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 293 (Parent: 11)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 294 (Parent: 11)
+Move: g7g5
+Visits: 1
+Value: -0.004
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 295 (Parent: 11)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 296 (Parent: 11)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 297 (Parent: 11)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 298 (Parent: 11)
+Move: c7c5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 299 (Parent: 11)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 300 (Parent: 11)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 12 (Parent: 0)
+Move: a2a3
+Visits: 10
+Value: 0.001
+Prior: 0.049
+Virtual Loss: 27
+------------------------------
+Node ID: 241 (Parent: 12)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 242 (Parent: 12)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 243 (Parent: 12)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 244 (Parent: 12)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 245 (Parent: 12)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 246 (Parent: 12)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 247 (Parent: 12)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 248 (Parent: 12)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 249 (Parent: 12)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 250 (Parent: 12)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 251 (Parent: 12)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 252 (Parent: 12)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 253 (Parent: 12)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 254 (Parent: 12)
+Move: g7g5
+Visits: 1
+Value: -0.004
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 255 (Parent: 12)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 256 (Parent: 12)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 257 (Parent: 12)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 258 (Parent: 12)
+Move: c7c5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 259 (Parent: 12)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 260 (Parent: 12)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 13 (Parent: 0)
+Move: h2h4
+Visits: 9
+Value: 0.001
+Prior: 0.045
+Virtual Loss: 24
+------------------------------
+Node ID: 361 (Parent: 13)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 362 (Parent: 13)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 363 (Parent: 13)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 364 (Parent: 13)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 365 (Parent: 13)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 366 (Parent: 13)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 367 (Parent: 13)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 368 (Parent: 13)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 369 (Parent: 13)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 370 (Parent: 13)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 371 (Parent: 13)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 372 (Parent: 13)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 373 (Parent: 13)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 374 (Parent: 13)
+Move: g7g5
+Visits: 0
+Value: 0.000
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 375 (Parent: 13)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 376 (Parent: 13)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 377 (Parent: 13)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 378 (Parent: 13)
+Move: c7c5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 379 (Parent: 13)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 380 (Parent: 13)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 14 (Parent: 0)
+Move: g2g4
+Visits: 9
+Value: 0.001
+Prior: 0.044
+Virtual Loss: 24
+------------------------------
+Node ID: 401 (Parent: 14)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 402 (Parent: 14)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 403 (Parent: 14)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 404 (Parent: 14)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 405 (Parent: 14)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 406 (Parent: 14)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 407 (Parent: 14)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 408 (Parent: 14)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 409 (Parent: 14)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 410 (Parent: 14)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 411 (Parent: 14)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 412 (Parent: 14)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 413 (Parent: 14)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 414 (Parent: 14)
+Move: g7g5
+Visits: 0
+Value: 0.000
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 415 (Parent: 14)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 416 (Parent: 14)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 417 (Parent: 14)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 418 (Parent: 14)
+Move: c7c5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 419 (Parent: 14)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 420 (Parent: 14)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 15 (Parent: 0)
+Move: f2f4
+Visits: 11
+Value: 0.001
+Prior: 0.056
+Virtual Loss: 30
+------------------------------
+Node ID: 41 (Parent: 15)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 42 (Parent: 15)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 43 (Parent: 15)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 44 (Parent: 15)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 45 (Parent: 15)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 46 (Parent: 15)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 47 (Parent: 15)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 48 (Parent: 15)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 49 (Parent: 15)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 50 (Parent: 15)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 51 (Parent: 15)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 52 (Parent: 15)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 53 (Parent: 15)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 54 (Parent: 15)
+Move: g7g5
+Visits: 1
+Value: -0.004
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 55 (Parent: 15)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 56 (Parent: 15)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 57 (Parent: 15)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 58 (Parent: 15)
+Move: c7c5
+Visits: 1
+Value: -0.004
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 59 (Parent: 15)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 60 (Parent: 15)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 16 (Parent: 0)
+Move: e2e4
+Visits: 10
+Value: 0.001
+Prior: 0.051
+Virtual Loss: 27
+------------------------------
+Node ID: 181 (Parent: 16)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 182 (Parent: 16)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 183 (Parent: 16)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 184 (Parent: 16)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 185 (Parent: 16)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 186 (Parent: 16)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 187 (Parent: 16)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 188 (Parent: 16)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 189 (Parent: 16)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 190 (Parent: 16)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 191 (Parent: 16)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 192 (Parent: 16)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 193 (Parent: 16)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 194 (Parent: 16)
+Move: g7g5
+Visits: 1
+Value: -0.004
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 195 (Parent: 16)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 196 (Parent: 16)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 197 (Parent: 16)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 198 (Parent: 16)
+Move: c7c5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 199 (Parent: 16)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 200 (Parent: 16)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 17 (Parent: 0)
+Move: d2d4
+Visits: 10
+Value: 0.001
+Prior: 0.049
+Virtual Loss: 27
+------------------------------
+Node ID: 261 (Parent: 17)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 262 (Parent: 17)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 263 (Parent: 17)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 264 (Parent: 17)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 265 (Parent: 17)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 266 (Parent: 17)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 267 (Parent: 17)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 268 (Parent: 17)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 269 (Parent: 17)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 270 (Parent: 17)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 271 (Parent: 17)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 272 (Parent: 17)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 273 (Parent: 17)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 274 (Parent: 17)
+Move: g7g5
+Visits: 1
+Value: -0.004
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 275 (Parent: 17)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 276 (Parent: 17)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 277 (Parent: 17)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 278 (Parent: 17)
+Move: c7c5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 279 (Parent: 17)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 280 (Parent: 17)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 18 (Parent: 0)
+Move: c2c4
+Visits: 11
+Value: 0.001
+Prior: 0.056
+Virtual Loss: 30
+------------------------------
+Node ID: 21 (Parent: 18)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 22 (Parent: 18)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 23 (Parent: 18)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 24 (Parent: 18)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 25 (Parent: 18)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 26 (Parent: 18)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 27 (Parent: 18)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 28 (Parent: 18)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 29 (Parent: 18)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 30 (Parent: 18)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 31 (Parent: 18)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 32 (Parent: 18)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 33 (Parent: 18)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 34 (Parent: 18)
+Move: g7g5
+Visits: 1
+Value: -0.004
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 35 (Parent: 18)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 36 (Parent: 18)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 37 (Parent: 18)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 38 (Parent: 18)
+Move: c7c5
+Visits: 1
+Value: -0.004
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 39 (Parent: 18)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 40 (Parent: 18)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 19 (Parent: 0)
+Move: b2b4
+Visits: 9
+Value: 0.001
+Prior: 0.045
+Virtual Loss: 24
+------------------------------
+Node ID: 381 (Parent: 19)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 382 (Parent: 19)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 383 (Parent: 19)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 384 (Parent: 19)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 385 (Parent: 19)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 386 (Parent: 19)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 387 (Parent: 19)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 388 (Parent: 19)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 389 (Parent: 19)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 390 (Parent: 19)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 391 (Parent: 19)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 392 (Parent: 19)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 393 (Parent: 19)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 394 (Parent: 19)
+Move: g7g5
+Visits: 0
+Value: 0.000
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 395 (Parent: 19)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 396 (Parent: 19)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 397 (Parent: 19)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 398 (Parent: 19)
+Move: c7c5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 399 (Parent: 19)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 400 (Parent: 19)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 20 (Parent: 0)
+Move: a2a4
+Visits: 10
+Value: 0.001
+Prior: 0.050
+Virtual Loss: 27
+------------------------------
+Node ID: 201 (Parent: 20)
+Move: g8h6
+Visits: 1
+Value: -0.004
+Prior: 0.054
+Virtual Loss: 0
+------------------------------
+Node ID: 202 (Parent: 20)
+Move: g8f6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 203 (Parent: 20)
+Move: b8c6
+Visits: 0
+Value: 0.000
+Prior: 0.047
+Virtual Loss: 0
+------------------------------
+Node ID: 204 (Parent: 20)
+Move: b8a6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 205 (Parent: 20)
+Move: h7h6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 206 (Parent: 20)
+Move: g7g6
+Visits: 0
+Value: 0.000
+Prior: 0.048
+Virtual Loss: 0
+------------------------------
+Node ID: 207 (Parent: 20)
+Move: f7f6
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 208 (Parent: 20)
+Move: e7e6
+Visits: 0
+Value: 0.000
+Prior: 0.041
+Virtual Loss: 0
+------------------------------
+Node ID: 209 (Parent: 20)
+Move: d7d6
+Visits: 1
+Value: -0.004
+Prior: 0.055
+Virtual Loss: 0
+------------------------------
+Node ID: 210 (Parent: 20)
+Move: c7c6
+Visits: 0
+Value: 0.000
+Prior: 0.046
+Virtual Loss: 0
+------------------------------
+Node ID: 211 (Parent: 20)
+Move: b7b6
+Visits: 1
+Value: -0.004
+Prior: 0.052
+Virtual Loss: 0
+------------------------------
+Node ID: 212 (Parent: 20)
+Move: a7a6
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 213 (Parent: 20)
+Move: h7h5
+Visits: 1
+Value: -0.004
+Prior: 0.053
+Virtual Loss: 0
+------------------------------
+Node ID: 214 (Parent: 20)
+Move: g7g5
+Visits: 1
+Value: -0.004
+Prior: 0.051
+Virtual Loss: 0
+------------------------------
+Node ID: 215 (Parent: 20)
+Move: f7f5
+Visits: 1
+Value: -0.004
+Prior: 0.058
+Virtual Loss: 0
+------------------------------
+Node ID: 216 (Parent: 20)
+Move: e7e5
+Visits: 0
+Value: 0.000
+Prior: 0.045
+Virtual Loss: 0
+------------------------------
+Node ID: 217 (Parent: 20)
+Move: d7d5
+Visits: 0
+Value: 0.000
+Prior: 0.044
+Virtual Loss: 0
+------------------------------
+Node ID: 218 (Parent: 20)
+Move: c7c5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
+Node ID: 219 (Parent: 20)
+Move: b7b5
+Visits: 1
+Value: -0.004
+Prior: 0.063
+Virtual Loss: 0
+------------------------------
+Node ID: 220 (Parent: 20)
+Move: a7a5
+Visits: 0
+Value: 0.000
+Prior: 0.049
+Virtual Loss: 0
+------------------------------
