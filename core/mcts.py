@@ -208,7 +208,7 @@ class MCTS:
                 node.children.append(child)
             
             # Lấy policy và value từ neural network cho node hiện tại
-            state = self.env._observation()
+            state = node.env._observation()
             mask = self._legal_moves_mask(node.board)
             
             # Thêm vào inference queue
@@ -228,7 +228,7 @@ class MCTS:
         """Mô phỏng từ node đến khi kết thúc game hoặc sử dụng value prediction."""
         if self.use_model:
             # Sử dụng neural network để đánh giá trạng thái
-            state = self.env._observation()
+            state = node.env._observation()
             mask = self._legal_moves_mask(node.board)
             
             # Thêm vào inference queue

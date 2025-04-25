@@ -86,7 +86,6 @@ class ChessEnv(gym.Env):
         # Set up action and observation spaces
         self.action_dim = 4864  # Total number of possible moves in chess
         self.action_space = Discrete(self.action_dim + (1 if has_resign_move else 0))
-        self.observation_space = Box(low=0, high=1, shape=(num_stack * 2 + 1, self.board_size, self.board_size), dtype=np.int8)
 
         # Initialize game state
         self.board = np.zeros((self.board_size, self.board_size), dtype=np.int8)

@@ -20,11 +20,11 @@ def print_mcts_tree(node, depth=0, max_depth=3, prefix=""):
 
     # In thông tin của node
     print(f"{prefix}Node ID: {node.id} (Parent: {parent_id})")
-    print(f"{prefix}    Move: {move_str}")
-    print(f"{prefix}    Visits: {visits}")
-    print(f"{prefix}    Value: {value:.3f}")
-    print(f"{prefix}    Prior: {node.prior:.3f}")
-    print(f"{prefix}    {'-'*30}")  # Dùng dấu '-' để phân tách các node
+    print(f"{prefix}Move: {move_str}")
+    print(f"{prefix}Visits: {visits}")
+    print(f"{prefix}Value: {value:.3f}")
+    print(f"{prefix}Prior: {node.prior:.3f}")
+    print(f"{prefix}{'-'*30}")  # Dùng dấu '-' để phân tách các node
 
     # In các node con
     for child in node.children:
