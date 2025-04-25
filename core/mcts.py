@@ -89,24 +89,33 @@ class MCTS:
         self.temperature = temperature
         self.root = None  # Lưu root node để reuse
 
-        # Khởi tạo process pool và thread pool
-        if num_processes is None:
-            num_processes = cpu_count()
-        self.num_processes = num_processes
-        self.pool = Pool(processes=num_processes)
-        
-        # Thread pool cho async inference
-        self.thread_pool = []
-        self.inference_queue = Queue()
-        self.result_queue = Queue()
-        self.lock = threading.Lock()
-        
-        # Cache cho neural network predictions
-        self.prediction_cache = {}
+        # Khởi tạo process pool và thread pool chỉ khi sử dụng model
+        if self.use_model:
+            if num_processes is None:
+                num_processes = cpu_count()
+            self.num_processes = num_processes
+            self.pool = Pool(processes=num_processes)
+            
+            # Thread pool cho async inference
+            self.thread_pool = []
+            self.inference_queue = Queue()
+            self.result_queue = Queue()
+            self.lock = threading.Lock()
+            
+            # Cache cho neural network predictions
+            self.prediction_cache = {}
+        else:
+            self.pool = None
+            self.thread_pool = []
+            self.inference_queue = None
+            self.result_queue = None
+            self.lock = threading.Lock()
 
     def __del__(self):
-        self.pool.close()
-        self.pool.join()
+        """Cleanup resources."""
+        if self.use_model and self.pool is not None:
+            self.pool.close()
+            self.pool.join()
         for thread in self.thread_pool:
             thread.join()
 
@@ -125,12 +134,13 @@ class MCTS:
             self.root = MCTSNode(root_board, self.env)
 
         # Khởi tạo thread pool nếu chưa có
-        if not self.thread_pool:
-            for _ in range(self.num_processes):
-                thread = threading.Thread(target=self._inference_worker)
-                thread.daemon = True
-                thread.start()
-                self.thread_pool.append(thread)
+        if self.use_model:
+            if not self.thread_pool:
+                for _ in range(self.num_processes):
+                    thread = threading.Thread(target=self._inference_worker)
+                    thread.daemon = True
+                    thread.start()
+                    self.thread_pool.append(thread)
 
         # Thực hiện simulations lần
         for _ in range(self.simulations):
@@ -207,20 +217,29 @@ class MCTS:
                 child = MCTSNode(child_env.chess_board, child_env, parent=node, move=move)
                 node.children.append(child)
             
-            # Lấy policy và value từ neural network cho node hiện tại
-            state = node.env._observation()
-            mask = self._legal_moves_mask(node.board)
-            
-            # Thêm vào inference queue
-            self.inference_queue.put((state, mask))
-            
-            # Lấy kết quả từ result queue
-            policy, value = self.result_queue.get()
-            
-            # Cập nhật prior và value cho tất cả children
-            for child in node.children:
-                child.prior = policy[self.converter.move_to_index(child.move)]
-                child.value = value  # Lưu value prediction
+            if self.use_model and self.neural_net is not None:
+                # Sử dụng neural network để dự đoán policy và value
+                state = node.env._observation()
+                mask = self._legal_moves_mask(node.board)
+                
+                # Thêm vào inference queue
+                self.inference_queue.put((state, mask))
+                
+                # Lấy kết quả từ result queue
+                policy, value = self.result_queue.get()
+                
+                # Cập nhật prior và value cho tất cả children
+                for child in node.children:
+                    child.prior = policy[self.converter.move_to_index(child.move)]
+                    child.value = value  # Lưu value prediction
+            else:
+                # MCTS truyền thống: gán prior bằng nhau cho tất cả nước đi
+                num_children = len(node.children)
+                if num_children > 0:
+                    prior = 1.0 / num_children
+                    for child in node.children:
+                        child.prior = prior
+                        child.value = 0.0  # Không có value prediction
             
             node.is_expanded = True
 

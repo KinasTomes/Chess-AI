@@ -5,31 +5,31 @@ from core.model import ChessNet
 from training.utils import load_predict_model
 from core.chess_base import ChessEnv
 from core.mcts import MCTS
+from multiprocessing import freeze_support
 
 if __name__ == "__main__":
-    # Khởi tạo device
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    freeze_support()
     
-    # Khởi tạo và load model
+    # Khởi tạo device
     model = ChessNet()
-    model = load_predict_model(r"model_checkpoint\best_model.pth", model)
-    model.to(device)
+    model = load_predict_model(r'model_checkpoint\best_model.pth', model)
+    model.to('cuda')
     model.eval()
-
+    
     # Khởi tạo môi trường
     env = ChessEnv()
     env.reset()
 
-    # Khởi tạo MCTS với model đã load
+    # Khởi tạo MCTS không sử dụng neural network
     mcts = MCTS(
-        neural_net=model,
+        neural_net=model,  # Không sử dụng neural network
         converter=env.chess_coords,
         env=env,
         simulations=200,  # Số lượt mô phỏng cho mỗi nước đi
         max_depth=30,     # Độ sâu tối đa cho mỗi mô phỏng
-        device=device,
+        device='cuda',
         num_processes=4,  # Số process cho parallel search
-        use_model=True    # Sử dụng model để dự đoán nước đi
+        use_model=False   # Không sử dụng model để dự đoán nước đi
     )
 
     move_count = 0
@@ -37,6 +37,7 @@ if __name__ == "__main__":
 
     while not env.is_game_over():
         # In trạng thái bàn cờ
+        print("\n" + str(env.chess_board))
         
         # Chạy MCTS để tìm nước đi tốt nhất
         pi = mcts.run(env.chess_board)
