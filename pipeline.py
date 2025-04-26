@@ -326,6 +326,3 @@ def training_pipeline(num_iterations: int, num_games_per_iteration: int, model_d
         raise
     finally:
         torch.cuda.empty_cache()
-
-if __name__ == "__main__":
-    training_pipeline(10, 50, 'model_checkpoint')
