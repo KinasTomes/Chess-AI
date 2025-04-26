@@ -6,7 +6,6 @@ from tqdm import tqdm
 import torch.nn as nn
 import torch.optim as optim
 import torch.multiprocessing as mp
-import logging
 from torch.utils.data import random_split
 from typing import Tuple, List, Dict
 import traceback
@@ -17,17 +16,6 @@ from core.chess_base import ChessEnv
 from training.replay_buffer import ReplayBuffer
 from training.utils import load_model
 from torch.utils.data import Dataset, DataLoader, TensorDataset
-
-# Setup logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('training.log'),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger(__name__)
 
 def get_gpu_id(process_id: int, num_gpus: int) -> int:
     """
@@ -105,12 +93,11 @@ def self_play(model: ChessNet, num_games: int, replay_buffer: ReplayBuffer) -> N
 
             replay_buffer.add_game(game_data)
 
-
             if game_idx % 10 == 0:
-                logger.info(f"Process {mp.current_process().name}: Completed {game_idx}/{num_games} games")
+                print(f"Process {mp.current_process().name}: Completed {game_idx}/{num_games} games")
 
     except Exception as e:
-        logger.error(f"Error in self_play: {str(e)}\n{traceback.format_exc()}")
+        print(f"Error in self_play: {str(e)}\n{traceback.format_exc()}")
         raise
 
 def get_model_for_pipeline(model_dir: str) -> ChessNet:
@@ -216,14 +203,14 @@ def training_pipeline(num_iterations: int, num_games_per_iteration: int, model_d
     """
     try:
         num_gpus = torch.cuda.device_count()
-        logger.info(f"Number of GPUs available: {num_gpus}")
+        print(f"Number of GPUs available: {num_gpus}")
 
         mp.set_start_method('spawn', force=True)
         NUM_PROCESSES = 2
         best_loss = float('inf')
 
         for iteration in range(num_iterations):
-            logger.info(f"Starting iteration {iteration + 1}/{num_iterations}")
+            print(f"Starting iteration {iteration + 1}/{num_iterations}")
 
             # Create thread-safe replay buffer
             replay_buffer = ReplayBuffer()
@@ -237,7 +224,7 @@ def training_pipeline(num_iterations: int, num_games_per_iteration: int, model_d
                 model.eval()
                 mcts_model.append(model)
 
-            logger.info(f"Starting self-play with {NUM_PROCESSES} processes...")    
+            print(f"Starting self-play with {NUM_PROCESSES} processes...")    
             mcts_processes = []
             for i in range(NUM_PROCESSES):
                 gpu_id = get_gpu_id(i, num_gpus)
@@ -305,15 +292,15 @@ def training_pipeline(num_iterations: int, num_games_per_iteration: int, model_d
                 # Validate model
                 avg_val_loss = validate_model(train_model, val_loader, criterion, device)
                 
-                logger.info(f"Epoch {epoch+1}/{num_epoch} - "
-                          f"Train Loss: {avg_train_loss:.4f} - "
-                          f"Val Loss: {avg_val_loss:.4f}")
+                print(f"Epoch {epoch+1}/{num_epoch} - "
+                      f"Train Loss: {avg_train_loss:.4f} - "
+                      f"Val Loss: {avg_val_loss:.4f}")
                 
                 scheduler.step(avg_val_loss)
 
                 if avg_val_loss < best_loss:
                     best_loss = avg_val_loss
-                    logger.info(f"Saving best model with validation loss: {best_loss:.4f}")
+                    print(f"Saving best model with validation loss: {best_loss:.4f}")
                     torch.save({
                         'model_state_dict': train_model.state_dict(),
                         'loss': best_loss,
@@ -324,13 +311,10 @@ def training_pipeline(num_iterations: int, num_games_per_iteration: int, model_d
             del states, policies, values, train_loader, val_loader
             torch.cuda.empty_cache()
 
-        logger.info(f"Training completed. Best validation loss: {best_loss:.4f}")
+        print(f"Training completed. Best validation loss: {best_loss:.4f}")
 
     except Exception as e:
-        logger.error(f"Error in training pipeline: {str(e)}\n{traceback.format_exc()}")
+        print(f"Error in training pipeline: {str(e)}\n{traceback.format_exc()}")
         raise
     finally:
         torch.cuda.empty_cache()
-
-if __name__ == "__main__":
-    training_pipeline(50, 10, 'model_checkpoint')
