@@ -11,10 +11,10 @@ if __name__ == "__main__":
     freeze_support()
     
     # Khởi tạo device
-    model = ChessNet()
-    model = load_predict_model(r'model_checkpoint\best_model.pth', model)
-    model.to('cuda')
-    model.eval()
+    # model = ChessNet()
+    # model = load_predict_model(r'model_checkpoint\best_model.pth', model)
+    # model.to('cuda')
+    # model.eval()
     
     # Khởi tạo môi trường
     env = ChessEnv()
@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     # Khởi tạo MCTS không sử dụng neural network
     mcts = MCTS(
-        neural_net=model,  # Không sử dụng neural network
+        neural_net=None,  # Không sử dụng neural network
         converter=env.chess_coords,
         env=env,
         simulations=200,  # Số lượt mô phỏng cho mỗi nước đi
@@ -36,8 +36,6 @@ if __name__ == "__main__":
     print("🎮 Bắt đầu game tự đánh...")
 
     while not env.is_game_over():
-        # In trạng thái bàn cờ
-        print("\n" + str(env.chess_board))
         
         # Chạy MCTS để tìm nước đi tốt nhất
         pi = mcts.run(env.chess_board)

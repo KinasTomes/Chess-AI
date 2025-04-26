@@ -1,3 +1,4 @@
+import torch
 import random
 from collections import deque
 import numpy as np
@@ -18,11 +19,15 @@ class ReplayBuffer:
             np.stack(policies),        # (B, action_dim)
             np.array(values, dtype=np.float32)  # (B,)
         )
-
-    def clear(self, sample_size: int):
-        for _ in range(sample_size):
-            if self.buffer:
-                self.buffer.popleft()
+    
+    def take_all(self):
+        batch = list(self.buffer)
+        states, policies, values = zip(*batch); del batch
+        return (
+            torch.from_numpy(np.stack(states)).float(),  # (B, 119, 8, 8)
+            torch.from_numpy(np.stack(policies)).float(),  # (B, action_dim)
+            torch.from_numpy(np.array(values, dtype=np.float32))  # (B,)
+        )
 
     def __len__(self):
         return len(self.buffer)

@@ -19,10 +19,9 @@ from core.chess_base import ChessEnv
 class MCTSNode:
     _id_counter = 0  # Class variable to keep track of node IDs
     
-    def __init__(self, board: chess.Board, env, parent=None, move=None):
+    def __init__(self, env: ChessEnv, parent=None, move=None):
         self.id = MCTSNode._id_counter
         MCTSNode._id_counter += 1
-        self.board = board
         self.env = env
         self.parent = parent
         self.move = move
@@ -51,7 +50,7 @@ class MCTSNode:
 
     @property
     def is_terminal(self):
-        return self.board.is_game_over()
+        return self.env.is_game_over()
 
 class LRUCache:
     def __init__(self, capacity: int):
@@ -122,16 +121,16 @@ class MCTS:
     def run(self, root_board: chess.Board):
         # Reuse root node nếu có
         if self.root is not None:
-            # Tìm child node tương ứng với nước đi vừa thực hiện
+            found = False
             for child in self.root.children:
-                if child.board == root_board:
+                if child.env.chess_board == root_board:
                     self.root = child
+                    found = True
                     break
-                else:
-                    # Nếu không tìm thấy, tạo root mới
-                    self.root = MCTSNode(root_board, self.env)
+            if not found:
+                self.root = MCTSNode(self.env)
         else:
-            self.root = MCTSNode(root_board, self.env)
+            self.root = MCTSNode(self.env)
 
         # Khởi tạo thread pool nếu chưa có
         if self.use_model:
@@ -157,17 +156,19 @@ class MCTS:
                 
                 # 4. Backprop: Cập nhật thông tin ngược lên
                 self._backprop(node, value)
+                for n in path:
+                    n.revert_virtual_loss()
             except Exception as e:
                 print(f"Error in MCTS simulation: {str(e)}")
-                continue
-            finally:
-                # Revert virtual loss cho tất cả nodes trong path
                 if 'path' in locals():  # Kiểm tra xem path có được định nghĩa không
                     for node in path:
                         node.revert_virtual_loss()
+                continue
+                
 
         # Tính xác suất cho các nước đi
         move_probs = self._get_move_probs(root_board)
+        print(f"Total visits: {self.root.visits}")
         return move_probs
 
     def _select(self, node: MCTSNode) -> Tuple[MCTSNode, List[MCTSNode]]:
@@ -199,66 +200,45 @@ class MCTS:
         path.append(node)  # Thêm node cuối cùng vào path
         return node, path
 
-    def _expand(self, node: MCTSNode):
-        """Mở rộng node bằng cách thêm các children."""
+    def _expand(self, node: MCTSNode) -> None:
         if not node.is_expanded:
-            # Tạo children cho mỗi nước đi hợp lệ
-            for move in node.board.legal_moves:
-                # Tạo bản sao hoàn chỉnh của môi trường
-                child_env = deepcopy(self.env)
-                child_env.chess_board = node.board.copy()
-                child_env.chess_board.push(move)
-                
-                # Cập nhật board_deltas cho child_env
-                child_env.board_deltas = deque(maxlen=8)
-                child_env.board_deltas.appendleft(np.copy(child_env.board))
-                
-                # Tạo node con với môi trường mới
-                child = MCTSNode(child_env.chess_board, child_env, parent=node, move=move)
-                node.children.append(child)
+            for move in node.env.chess_board.legal_moves:
+                child_env = deepcopy(node.env)
+                child_env.step(child_env.chess_coords.move_to_index(move))
+
+                child_node = MCTSNode(child_env, node, move)
+                node.children.append(child_node)
             
             if self.use_model and self.neural_net is not None:
-                # Sử dụng neural network để dự đoán policy và value
                 state = node.env._observation()
-                mask = self._legal_moves_mask(node.board)
-                
-                # Thêm vào inference queue
+                mask = self._legal_moves_mask(node.env.chess_board)
+
                 self.inference_queue.put((state, mask))
-                
-                # Lấy kết quả từ result queue
                 policy, value = self.result_queue.get()
-                
-                # Cập nhật prior và value cho tất cả children
+
                 for child in node.children:
                     child.prior = policy[self.converter.move_to_index(child.move)]
-                    child.value = value  # Lưu value prediction
+                    child.value = value
             else:
-                # MCTS truyền thống: gán prior bằng nhau cho tất cả nước đi
                 num_children = len(node.children)
                 if num_children > 0:
                     prior = 1.0 / num_children
                     for child in node.children:
                         child.prior = prior
-                        child.value = 0.0  # Không có value prediction
-            
+                        child.value = 0.0
+        
             node.is_expanded = True
 
     def _simulate(self, node: MCTSNode) -> float:
-        """Mô phỏng từ node đến khi kết thúc game hoặc sử dụng value prediction."""
         if self.use_model:
-            # Sử dụng neural network để đánh giá trạng thái
             state = node.env._observation()
-            mask = self._legal_moves_mask(node.board)
+            mask = self._legal_moves_mask(node.env.chess_board)
             
-            # Thêm vào inference queue
             self.inference_queue.put((state, mask))
-            
-            # Lấy kết quả từ result queue
             _, value = self.result_queue.get()
             return float(value)
         else:
-            # Rollout đến cuối game
-            board = node.board.copy()
+            board = node.env.chess_board.copy()
             current_depth = 0
             
             while not board.is_game_over() and current_depth < self.max_depth:
@@ -270,7 +250,6 @@ class MCTS:
                 board.push(move)
                 current_depth += 1
             
-            # Trả về kết quả game
             result = board.result()
             if result == "1-0":
                 return 1.0
@@ -405,66 +384,3 @@ def load_predict_model(path: str, model: ChessNet, device: str = "cuda"):
     except Exception as e:
         print(f"❌ Error loading model for prediction: {str(e)}")
         raise
-
-if __name__ == "__main__":
-    # Khởi tạo device
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    
-    # Khởi tạo và load model
-    model = ChessNet()
-    model = load_predict_model(r"model_checkpoint\best_model.pth", model)
-    model.to(device)
-    model.eval()
-
-    # Khởi tạo môi trường
-    env = ChessEnv()
-    env.reset()
-
-    # Khởi tạo MCTS với model đã load
-    mcts = MCTS(
-        neural_net=model,
-        converter=env.chess_coords,
-        env=env,
-        simulations=400,  # Tăng số lượt mô phỏng để có kết quả tốt hơn
-        max_depth=50,     # Độ sâu tối đa cho mỗi mô phỏng
-        device=device,
-        num_processes=4,  # Số process cho parallel search
-        use_model=True,    # Sử dụng model để dự đoán nước đi
-        temperature=1.0    # Không sử dụng temperature
-    )
-
-    move_count = 0
-    print("🎮 Bắt đầu game tự đánh...")
-
-    while not env.is_game_over():
-        # In trạng thái bàn cờ
-        print("\n" + str(env.chess_board))
-        
-        # Chạy MCTS để tìm nước đi tốt nhất
-        pi = mcts.run(env.chess_board)
-        
-        # Chọn nước đi dựa trên policy từ MCTS
-        valid_moves = env.legal_actions
-        pi_valid = pi * valid_moves
-        
-        if np.sum(pi_valid) > 0:
-            if move_count < 30:  # Temperature = 1 cho 30 nước đầu
-                pi_valid = pi_valid / np.sum(pi_valid)
-                action = np.random.choice(len(pi), p=pi_valid)
-            else:  # Temperature = 0 (greedy) sau 30 nước
-                action = np.argmax(pi_valid)
-        else:
-            action = np.random.choice(np.where(valid_moves)[0])
-
-        # Thực hiện nước đi
-        move_uci = env.chess_coords.index_to_move(action)
-        print(f"Move {move_count+1}: {move_uci} (policy: {pi[action]:.4f})")
-        
-        env.step(action)
-        move_count += 1
-        break
-
-    # In kết quả game
-    result = env.chess_board.result()
-    print(f"\n🏁 Game kết thúc sau {move_count} nước đi")
-    print(f"Kết quả: {result}")

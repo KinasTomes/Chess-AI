@@ -21,19 +21,19 @@ if __name__ == '__main__':
 
     env.render()
 
-    # model = ChessNet()
-    # model = load_predict_model(r'model_checkpoint\best_model.pth', model)
-    # model.eval()
+    model = ChessNet()
+    model = load_predict_model(r'model_checkpoint\best_model.pth', model)
+    model.eval()
 
     mcts = MCTS(
-        neural_net=None,
+        neural_net=model,
         converter=cvt,
         env=env,
         simulations=500,
         max_depth=10,
         device='cuda',
         num_processes=4,
-        use_model=False 
+        use_model=True 
     )
 
     pi = mcts.run(env.chess_board)
