@@ -3,3 +3,4 @@ __pycache__/
 buffer_data/
 evaluation/
 sample_data/
+*.log

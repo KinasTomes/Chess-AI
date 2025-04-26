@@ -1,3 +1,6 @@
 2025-04-26 21:30:06,343 - INFO - Number of GPUs available: 1
 2025-04-26 21:30:06,343 - INFO - Starting iteration 1/10
 2025-04-26 21:30:08,323 - INFO - Starting self-play with 2 processes...
+2025-04-26 21:48:32,130 - INFO - Number of GPUs available: 1
+2025-04-26 21:48:32,130 - INFO - Starting iteration 1/50
+2025-04-26 21:48:33,610 - INFO - Starting self-play with 2 processes...

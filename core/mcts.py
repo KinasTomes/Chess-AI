@@ -12,6 +12,7 @@ import asyncio
 from collections import OrderedDict
 from threading import Event
 from collections import deque
+import traceback
 
 from core.model import ChessNet
 from core.chess_base import ChessEnv
@@ -272,18 +273,24 @@ class MCTS:
         while True:
             state, mask = self.inference_queue.get()
             
-            # Convert to tensors
-            state_tensor = torch.from_numpy(state).float().unsqueeze(0).to(self.device)
-            mask_tensor = torch.from_numpy(mask).float().unsqueeze(0).to(self.device)
-            
-            # Get prediction from model
-            with torch.no_grad():
-                policy, value = self.neural_net(state_tensor, mask_tensor)
-                policy = policy.squeeze().cpu().numpy()
-                value = value.squeeze().cpu().numpy()
-            
-            # Put result back
-            self.result_queue.put((policy, value))
+            try:
+                # Convert to tensors and move to the same device as the model
+                model_device = next(self.neural_net.parameters()).device
+                state_tensor = torch.from_numpy(state).float().unsqueeze(0).to(model_device)
+                mask_tensor = torch.from_numpy(mask).float().unsqueeze(0).to(model_device)
+                
+                # Get prediction from model
+                with torch.no_grad():
+                    policy, value = self.neural_net(state_tensor, mask_tensor)
+                    policy = policy.squeeze().cpu().numpy()
+                    value = value.squeeze().cpu().numpy()
+                
+                # Put result back
+                self.result_queue.put((policy, value))
+            except Exception as e:
+                print(f"Error in inference worker: {str(e)}\n{traceback.format_exc()}")
+                # Put a default value to avoid deadlock
+                self.result_queue.put((np.zeros(self.env.action_dim), 0.0))
 
     def _legal_moves_mask(self, board: chess.Board) -> np.ndarray:
         """Tạo mask cho các nước đi hợp lệ."""
