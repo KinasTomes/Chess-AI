@@ -232,7 +232,7 @@ def training_pipeline(num_iterations: int, num_games_per_iteration: int, model_d
             mcts_model = []
             for gpu_id in range(num_gpus):
                 model = get_model_for_pipeline(model_dir)
-                model.cuda(gpu_id)
+                model = model.to(f'cuda:{gpu_id}')  # Explicitly move model to specific GPU
                 model.share_memory()
                 model.eval()
                 mcts_model.append(model)
@@ -254,12 +254,17 @@ def training_pipeline(num_iterations: int, num_games_per_iteration: int, model_d
             states, policies, values = replay_buffer.take_all()
             del replay_buffer
 
+            # Move all data to the same device
+            states = states.to(device)
+            policies = policies.to(device)
+            values = values.to(device)
+
             # Prepare data loaders with validation split
             train_loader, val_loader = prepare_data_loaders(states, policies, values, batch_size)
 
             train_model = get_model_for_pipeline(model_dir)
             train_model = nn.DataParallel(train_model)
-            train_model.to(device)
+            train_model = train_model.to(device)  # Move model to device before training
             train_model.train()
 
             optimizer = optim.SGD(train_model.parameters(), lr=initial_lr, momentum=0.9, weight_decay=1e-4)
