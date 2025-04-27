@@ -1,4 +1,5 @@
 import torch
+from training.timer import Timer
 from core.model import ChessNet
 from pipeline import self_play
 from training.utils import load_model
@@ -45,4 +46,7 @@ def main():
 
 if __name__ == '__main__':
     freeze_support()
+    timer = Timer()
+    timer.start()
     main()
+    timer.end()

@@ -87,22 +87,19 @@ class MCTS:
         self.device = device
         self.use_model = use_model
         self.temperature = temperature
-        self.root = None  # Lưu root node để reuse
+        self.root = None
 
-        # Khởi tạo process pool và thread pool chỉ khi sử dụng model
         if self.use_model:
             if num_processes is None:
                 num_processes = cpu_count()
             self.num_processes = num_processes
             self.pool = Pool(processes=num_processes)
             
-            # Thread pool cho async inference
             self.thread_pool = []
             self.inference_queue = Queue()
             self.result_queue = Queue()
             self.lock = threading.Lock()
             
-            # Cache cho neural network predictions
             self.prediction_cache = {}
         else:
             self.pool = None
@@ -112,28 +109,44 @@ class MCTS:
             self.lock = threading.Lock()
 
     def __del__(self):
-        """Cleanup resources."""
+        self.cleanup()
+
+    def cleanup(self):
+        """Clean up resources and free memory."""
         if self.use_model and self.pool is not None:
             self.pool.close()
             self.pool.join()
+        
         for thread in self.thread_pool:
             thread.join()
+        
+        self.thread_pool.clear()
+        self.prediction_cache.clear()
+        
+        # Clear the MCTS tree
+        if self.root is not None:
+            self._clear_tree(self.root)
+            self.root = None
+
+    def _clear_tree(self, node):
+        """Recursively clear the MCTS tree."""
+        if node is None:
+            return
+        
+        for child in node.children:
+            self._clear_tree(child)
+        
+        node.children.clear()
+        del node
 
     def run(self, root_board: chess.Board):
-        # Reuse root node nếu có
+        # Clear previous tree if exists
         if self.root is not None:
-            found = False
-            for child in self.root.children:
-                if child.env.board == root_board:
-                    self.root = child
-                    found = True
-                    break
-            if not found:
-                self.root = MCTSNode(self.env)
-        else:
-            self.root = MCTSNode(self.env)
+            self._clear_tree(self.root)
+            self.root = None
 
-        # Khởi tạo thread pool nếu chưa có
+        self.root = MCTSNode(self.env)
+
         if self.use_model:
             if not self.thread_pool:
                 for _ in range(self.num_processes):
@@ -142,32 +155,25 @@ class MCTS:
                     thread.start()
                     self.thread_pool.append(thread)
 
-        # Thực hiện simulations lần
         for _ in range(self.simulations):
             try:
-                # 1. Select: Chọn node để mở rộng
                 node, path = self._select(self.root)
                 
-                # 2. Expand: Mở rộng node đã chọn
                 if not node.is_terminal:
                     self._expand(node)
                 
-                # 3. Simulate: Mô phỏng từ node đã mở rộng
                 value = self._simulate(node)
                 
-                # 4. Backprop: Cập nhật thông tin ngược lên
                 self._backprop(node, value)
                 for n in path:
                     n.revert_virtual_loss()
             except Exception as e:
                 print(f"Error in MCTS simulation: {str(e)}")
-                if 'path' in locals():  # Kiểm tra xem path có được định nghĩa không
+                if 'path' in locals():
                     for node in path:
                         node.revert_virtual_loss()
                 continue
-                
 
-        # Tính xác suất cho các nước đi
         move_probs = self._get_move_probs(root_board)
         return move_probs
 
@@ -268,27 +274,27 @@ class MCTS:
             node = node.parent
 
     def _inference_worker(self):
-        """Worker thread cho async inference."""
         while True:
             state, mask = self.inference_queue.get()
             
             try:
-                # Convert to tensors and move to the same device as the model
                 model_device = next(self.neural_net.parameters()).device
                 state_tensor = torch.from_numpy(state).float().unsqueeze(0).to(model_device)
                 mask_tensor = torch.from_numpy(mask).float().unsqueeze(0).to(model_device)
                 
-                # Get prediction from model
                 with torch.no_grad():
                     policy, value = self.neural_net(state_tensor, mask_tensor)
                     policy = policy.squeeze().cpu().numpy()
                     value = value.squeeze().cpu().numpy()
                 
-                # Put result back
                 self.result_queue.put((policy, value))
+                
+                # Clean up tensors
+                del state_tensor, mask_tensor
+                torch.cuda.empty_cache()
+                
             except Exception as e:
                 print(f"Error in inference worker: {str(e)}\n{traceback.format_exc()}")
-                # Put a default value to avoid deadlock
                 self.result_queue.put((np.zeros(self.env.action_dim), 0.0))
 
     def _legal_moves_mask(self, board: chess.Board) -> np.ndarray:

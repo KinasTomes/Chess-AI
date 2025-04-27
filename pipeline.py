@@ -41,10 +41,6 @@ def self_play(model: ChessNet, num_games: int, replay_buffer: ReplayBuffer) -> N
     """
     try:
         for game_idx in range(num_games):
-            # print(f"\n{'='*50}")
-            # print(f"Starting game {game_idx + 1}/{num_games}")
-            # print(f"{'='*50}")
-            
             env = ChessEnv()
             env.reset()
             mcts = MCTS(
@@ -63,9 +59,6 @@ def self_play(model: ChessNet, num_games: int, replay_buffer: ReplayBuffer) -> N
             move_count = 0
 
             while not env._is_game_over():
-                # print(f"\nMove {move_count + 1}:")
-                # print(f"Current board:\n{env.board}")
-                
                 pi = mcts.run(env.board)
 
                 game_history.append({
@@ -83,21 +76,10 @@ def self_play(model: ChessNet, num_games: int, replay_buffer: ReplayBuffer) -> N
                 else:
                     action = np.argmax(pi_valid)
 
-                # Debug selected move
                 selected_move = env.converter.index_to_move(action)
-                # print(f"\nSelected move: {selected_move}")
-                # print(f"Move probability: {pi_valid[action]:.4f}")
-
                 env.step(selected_move)
                 move_count += 1
-                
-                # Debug game state after move
-                # print(f"\nGame state after move:")
-                # print(f"Current player: {'White' if env.to_play else 'Black'}")
-                # print(f"Game over: {env._is_game_over()}")
-                # if env._is_game_over():
-                #     print(f"Winner: {'White' if env.board.result() == '1-0' else 'Black' if env.board.result() == '0-1' else 'Draw'}")
-            
+
             if env.board.result() == '1-0':
                 game_result = 1
             elif env.board.result() == '0-1':
@@ -114,6 +96,12 @@ def self_play(model: ChessNet, num_games: int, replay_buffer: ReplayBuffer) -> N
 
             if game_idx % 10 == 0:
                 print(f"Process {mp.current_process().name}: Completed {game_idx}/{num_games} games")
+
+            # Clean up resources after each game
+            mcts.cleanup()
+            del mcts
+            del env
+            torch.cuda.empty_cache()
 
         print("Self play complete.")
 
