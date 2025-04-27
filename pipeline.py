@@ -115,6 +115,8 @@ def self_play(model: ChessNet, num_games: int, replay_buffer: ReplayBuffer) -> N
             if game_idx % 10 == 0:
                 print(f"Process {mp.current_process().name}: Completed {game_idx}/{num_games} games")
 
+        print("Self play complete.")
+
     except Exception as e:
         print(f"Error in self_play: {str(e)}\n{traceback.format_exc()}")
         raise
