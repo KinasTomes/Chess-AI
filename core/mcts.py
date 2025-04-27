@@ -169,7 +169,6 @@ class MCTS:
 
         # Tính xác suất cho các nước đi
         move_probs = self._get_move_probs(root_board)
-        print(f"Total visits: {self.root.visits}")
         return move_probs
 
     def _select(self, node: MCTSNode) -> Tuple[MCTSNode, List[MCTSNode]]:
