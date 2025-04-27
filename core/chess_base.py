@@ -505,10 +505,6 @@ class ChessEnv(gym.Env):
             return 'Unknown'
 
     def _observation(self) -> np.ndarray:
-        """
-        Return AlphaZero-style observation: (119, 8, 8) float32 tensor.
-        Includes 8-step history of positions (each with 14 planes) + 7 constant planes.
-        """
         T = 8
         M = 14
         L = 7

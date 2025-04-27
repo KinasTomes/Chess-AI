@@ -12,7 +12,7 @@ import traceback
 
 from core.mcts import MCTS
 from core.model import ChessNet, AlphaLoss
-from core.chess_base import ChessEnv
+from core.chess_base_v2 import ChessEnv
 from training.replay_buffer import ReplayBuffer
 from training.utils import load_model
 from torch.utils.data import Dataset, DataLoader, TensorDataset
@@ -41,14 +41,18 @@ def self_play(model: ChessNet, num_games: int, replay_buffer: ReplayBuffer) -> N
     """
     try:
         for game_idx in range(num_games):
+            # print(f"\n{'='*50}")
+            # print(f"Starting game {game_idx + 1}/{num_games}")
+            # print(f"{'='*50}")
+            
             env = ChessEnv()
             env.reset()
             mcts = MCTS(
                 neural_net=model,
-                converter=env.chess_coords,
+                converter=env.converter,
                 env=env,
-                simulations=800,
-                max_depth=10,
+                simulations=100,
+                max_depth=5,
                 device='cuda',
                 num_processes=4,
                 use_model=True,
@@ -58,8 +62,11 @@ def self_play(model: ChessNet, num_games: int, replay_buffer: ReplayBuffer) -> N
             game_history = []
             move_count = 0
 
-            while not env.is_game_over():
-                pi = mcts.run(env.chess_board)
+            while not env._is_game_over():
+                # print(f"\nMove {move_count + 1}:")
+                # print(f"Current board:\n{env.board}")
+                
+                pi = mcts.run(env.board)
 
                 game_history.append({
                     'state': env._observation(),
@@ -70,25 +77,37 @@ def self_play(model: ChessNet, num_games: int, replay_buffer: ReplayBuffer) -> N
                 valid_move = env.legal_actions
                 pi_valid = pi * valid_move
 
-                if move_count < 30:
+                if move_count < 10:
                     pi_valid = pi_valid / (np.sum(pi_valid) + 1e-8)
                     action = np.random.choice(len(pi), p=pi_valid)
                 else:
                     action = np.argmax(pi_valid)
 
-                env.step(action)
+                # Debug selected move
+                selected_move = env.converter.index_to_move(action)
+                # print(f"\nSelected move: {selected_move}")
+                # print(f"Move probability: {pi_valid[action]:.4f}")
+
+                env.step(selected_move)
                 move_count += 1
+                
+                # Debug game state after move
+                # print(f"\nGame state after move:")
+                # print(f"Current player: {'White' if env.to_play else 'Black'}")
+                # print(f"Game over: {env._is_game_over()}")
+                # if env._is_game_over():
+                #     print(f"Winner: {'White' if env.board.result() == '1-0' else 'Black' if env.board.result() == '0-1' else 'Draw'}")
             
-            if env.winner == env.white_player:
+            if env.board.result() == '1-0':
                 game_result = 1
-            elif env.winner == env.black_player:
+            elif env.board.result() == '0-1':
                 game_result = -1
             else:
                 game_result = 0
 
             game_data = []
             for history in game_history:
-                value = game_result if history['player'] == env.white_player else -game_result
+                value = game_result if history['player'] else -game_result
                 game_data.append((history['state'], history['policy'], value))
 
             replay_buffer.add_game(game_data)

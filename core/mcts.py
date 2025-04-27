@@ -15,7 +15,7 @@ from collections import deque
 import traceback
 
 from core.model import ChessNet
-from core.chess_base import ChessEnv
+from core.chess_base_v2 import ChessEnv
 
 class MCTSNode:
     _id_counter = 0  # Class variable to keep track of node IDs
@@ -51,7 +51,7 @@ class MCTSNode:
 
     @property
     def is_terminal(self):
-        return self.env.is_game_over()
+        return self.env._is_game_over()
 
 class LRUCache:
     def __init__(self, capacity: int):
@@ -124,7 +124,7 @@ class MCTS:
         if self.root is not None:
             found = False
             for child in self.root.children:
-                if child.env.chess_board == root_board:
+                if child.env.board == root_board:
                     self.root = child
                     found = True
                     break
@@ -203,16 +203,16 @@ class MCTS:
 
     def _expand(self, node: MCTSNode) -> None:
         if not node.is_expanded:
-            for move in node.env.chess_board.legal_moves:
+            for move in node.env.board.legal_moves:
                 child_env = deepcopy(node.env)
-                child_env.step(child_env.chess_coords.move_to_index(move))
+                child_env.step(move)
 
                 child_node = MCTSNode(child_env, node, move)
                 node.children.append(child_node)
             
             if self.use_model and self.neural_net is not None:
                 state = node.env._observation()
-                mask = self._legal_moves_mask(node.env.chess_board)
+                mask = self._legal_moves_mask(node.env.board)
 
                 self.inference_queue.put((state, mask))
                 policy, value = self.result_queue.get()
@@ -233,13 +233,13 @@ class MCTS:
     def _simulate(self, node: MCTSNode) -> float:
         if self.use_model:
             state = node.env._observation()
-            mask = self._legal_moves_mask(node.env.chess_board)
+            mask = self._legal_moves_mask(node.env.board)
             
             self.inference_queue.put((state, mask))
             _, value = self.result_queue.get()
             return float(value)
         else:
-            board = node.env.chess_board.copy()
+            board = node.env.board.copy()
             current_depth = 0
             
             while not board.is_game_over() and current_depth < self.max_depth:
@@ -352,42 +352,3 @@ class MCTS:
                 move_probs /= np.sum(move_probs)
 
         return move_probs
-
-def load_predict_model(path: str, model: ChessNet, device: str = "cuda"):
-    """
-    Load model chỉ để predict, không cần load optimizer và scheduler.
-    Hàm này nhẹ hơn và nhanh hơn load_training_model.
-    
-    Args:
-        path: Đường dẫn tới file checkpoint
-        model: Instance của model cần load weights vào
-        device: Device để load model (cuda/cpu)
-    
-    Returns:
-        ChessNet: Model đã load weights
-    """
-    try:
-        # Load với map_location để có thể load model từ GPU sang CPU hoặc ngược lại
-        checkpoint = torch.load(path, map_location=device)
-        
-        # Load model state
-        if isinstance(model, torch.nn.DataParallel):
-            model.module.load_state_dict(checkpoint['model_state_dict'])
-        else:
-            model.load_state_dict(checkpoint['model_state_dict'])
-        
-        # Chuyển model sang device phù hợp
-        model = model.to(device)
-        
-        # Chuyển sang eval mode
-        model.eval()
-        
-        print(f"✅ Loaded model for prediction from {path}")
-        if 'loss' in checkpoint:
-            print(f"   └── Model loss: {checkpoint['loss']:.4f}")
-        
-        return model
-        
-    except Exception as e:
-        print(f"❌ Error loading model for prediction: {str(e)}")
-        raise
