@@ -3,6 +3,7 @@ import chess
 import chess.polyglot
 import numpy as np
 
+from typing import Tuple
 from collections import deque
 
 from core.coords_converter import ChessCoordsConverter
@@ -24,6 +25,16 @@ PIECE_SYMBOLS = {
     ROOK: 'R',
     QUEEN: 'Q',
     KING: 'K'
+}
+
+PIECE_VALUES = {
+    EMPTY: 0,
+    PAWN: 100,
+    KNIGHT: 320,
+    BISHOP: 330,
+    ROOK: 500,
+    QUEEN: 900,
+    KING: 20000
 }
 
 class ChessEnv(gym.Env):
@@ -98,12 +109,30 @@ class ChessEnv(gym.Env):
 
     def _is_game_over(self) -> bool:
         return self.board.is_game_over()
+    
+    def _calculate_reward(self) -> float:
+        board = self.board
 
-    def step(self, action: chess.Move):
+        if board.is_checkmate():
+            return 1.0 if board.result() == ("1-0" if board.turn else "0-1") else -1.0
+
+        if board.is_stalemate() or board.is_insufficient_material() or board.is_fifty_moves() or board.is_repetition():
+            return 0.0
+
+        return self._evaluate_position()
+
+    def _evaluate_position(self) -> float:
+        evaluation = sum(
+            (len(self.board.pieces(pt, chess.WHITE)) - len(self.board.pieces(pt, chess.BLACK))) * val
+            for pt, val in PIECE_VALUES.items() if pt != EMPTY
+        )
+        return evaluation / 10000.0
+
+    def step(self, action: chess.Move) -> Tuple[np.ndarray, float, bool]:
         if self._is_game_over():
             raise RuntimeError("Game is over, call reset() before using step method.")
         if action is not None and action not in list(self.board.legal_moves):
-            raise ValueError("Invalid action: move is not legal.")
+            raise ValueError(f"Invalid action: {action} is not legal.")
         
         self.board.push(action)
         self._update_legal_actions()
@@ -117,7 +146,9 @@ class ChessEnv(gym.Env):
 
         done = self._is_game_over()
 
-        return self._observation(), done
+        reward = self._calculate_reward()
+
+        return self._observation(), reward, done
     
     def _fen_to_presentation(self, fen: str, turn_color: bool) -> np.ndarray:
         planes = np.zeros((14, 8, 8), dtype=np.float32)

@@ -10,7 +10,7 @@ from torch.utils.data import random_split
 from typing import Tuple, List, Dict
 import traceback
 
-from core.mcts import MCTS
+from core.mcts_v2_fake import MCTSNode, uct_search, parallel_uct_search
 from core.model import ChessNet, AlphaLoss
 from core.chess_base_v2 import ChessEnv
 from training.replay_buffer import ReplayBuffer
@@ -40,26 +40,71 @@ def self_play(model: ChessNet, num_games: int, replay_buffer: ReplayBuffer) -> N
         replay_buffer (ReplayBuffer): Thread-safe replay buffer for storing game data.
     """
     try:
+        device = next(model.parameters()).device
+        
+        # Define a wrapper function to convert NumPy arrays to PyTorch tensors
+        def model_eval_func(obs, legal_actions):
+            # Convert list of numpy arrays to a single numpy array if needed
+            if isinstance(obs, list):
+                obs = np.array(obs)
+            
+            # Convert numpy arrays to torch tensors with correct shape
+            obs_tensor = torch.FloatTensor(obs).to(device)
+            
+            # If this is a batched observation from parallel MCTS
+            if len(obs_tensor.shape) > 3:
+                # Reshape from [batch, num_stack, 14, 8, 8] to [batch, 119, 8, 8]
+                batch_size = obs_tensor.shape[0]
+                obs_tensor = obs_tensor.reshape(batch_size, -1, 8, 8)
+            else:
+                # Reshape from [num_stack, 14, 8, 8] to [1, 119, 8, 8] for a single observation
+                obs_tensor = obs_tensor.reshape(1, -1, 8, 8)
+            
+            # Convert legal_actions to a single numpy array if needed
+            if isinstance(legal_actions, list):
+                legal_actions = np.array(legal_actions)
+                
+            legal_tensor = torch.FloatTensor(legal_actions).to(device)
+            if len(legal_tensor.shape) == 1:
+                legal_tensor = legal_tensor.unsqueeze(0)
+            
+            # Get model predictions
+            with torch.no_grad():
+                policy_tensor, value_tensor = model(obs_tensor, legal_tensor)
+            
+            # Convert back to numpy arrays
+            if len(policy_tensor) > 1:
+                # For batch processing
+                policy = [p.cpu().numpy() for p in policy_tensor]
+                value = [v.item() for v in value_tensor]
+            else:
+                # For single input
+                policy = policy_tensor[0].cpu().numpy()
+                value = value_tensor.item()
+            
+            return policy, value
+            
         for game_idx in range(num_games):
             env = ChessEnv()
             env.reset()
-            mcts = MCTS(
-                neural_net=model,
-                converter=env.converter,
-                env=env,
-                simulations=100,
-                max_depth=5,
-                device='cuda',
-                num_processes=4,
-                use_model=True,
-                temperature=1.0
-            )
-
+            root_node = None
             game_history = []
             move_count = 0
 
             while not env._is_game_over():
-                pi = mcts.run(env.board)
+                # Use parallel MCTS for better performance
+                move, pi, root_value, best_child_value, next_root = parallel_uct_search(
+                    env=env,
+                    eval_func=model_eval_func,
+                    root_node=root_node,
+                    c_puct_base=19652,
+                    c_puct_init=1.25,
+                    num_sims=800,
+                    num_parallel=8,
+                    root_noise=True if move_count < 10 else False,
+                    warm_up=True if move_count < 10 else False,
+                    deterministic=False
+                )
 
                 game_history.append({
                     'state': env._observation(),
@@ -67,17 +112,9 @@ def self_play(model: ChessNet, num_games: int, replay_buffer: ReplayBuffer) -> N
                     'player': env.to_play
                 })
 
-                valid_move = env.legal_actions
-                pi_valid = pi * valid_move
-
-                if move_count < 10:
-                    pi_valid = pi_valid / (np.sum(pi_valid) + 1e-8)
-                    action = np.random.choice(len(pi), p=pi_valid)
-                else:
-                    action = np.argmax(pi_valid)
-
-                selected_move = env.converter.index_to_move(action)
+                selected_move = env.converter.index_to_move(move)
                 env.step(selected_move)
+                root_node = next_root
                 move_count += 1
 
             if env.board.result() == '1-0':
@@ -97,9 +134,7 @@ def self_play(model: ChessNet, num_games: int, replay_buffer: ReplayBuffer) -> N
             if game_idx % 10 == 0:
                 print(f"Process {mp.current_process().name}: Completed {game_idx}/{num_games} games")
 
-            # Clean up resources after each game
-            mcts.cleanup()
-            del mcts
+            # Clean up resources
             del env
             torch.cuda.empty_cache()
 
@@ -215,7 +250,7 @@ def training_pipeline(num_iterations: int, num_games_per_iteration: int, model_d
         print(f"Number of GPUs available: {num_gpus}")
 
         mp.set_start_method('spawn', force=True)
-        NUM_PROCESSES = 2
+        NUM_PROCESSES = 4 * num_gpus
         best_loss = float('inf')
 
         for iteration in range(num_iterations):
@@ -228,7 +263,7 @@ def training_pipeline(num_iterations: int, num_games_per_iteration: int, model_d
             mcts_model = []
             for gpu_id in range(num_gpus):
                 model = get_model_for_pipeline(model_dir)
-                model = model.to(f'cuda:{gpu_id}')  # Explicitly move model to specific GPU
+                model = model.to(f'cuda:{gpu_id}')
                 model.share_memory()
                 model.eval()
                 mcts_model.append(model)
@@ -248,82 +283,79 @@ def training_pipeline(num_iterations: int, num_games_per_iteration: int, model_d
             torch.cuda.empty_cache()
 
             states, policies, values = replay_buffer.take_all()
-            del replay_buffer
+            
+            if len(states) == 0:
+                print("No data collected in this iteration. Skipping training.")
+                continue
 
-            # Move all data to the same device
-            states = states.to(device)
-            policies = policies.to(device)
-            values = values.to(device)
+            # Convert to tensors
+            states = torch.FloatTensor(states)
+            policies = torch.FloatTensor(policies)
+            values = torch.FloatTensor(values)
 
-            # Prepare data loaders with validation split
+            # Prepare data loaders
             train_loader, val_loader = prepare_data_loaders(states, policies, values, batch_size)
 
-            train_model = get_model_for_pipeline(model_dir)
-            train_model = nn.DataParallel(train_model)
-            train_model = train_model.to(device)  # Move model to device before training
-            train_model.train()
-
-            optimizer = optim.SGD(train_model.parameters(), lr=initial_lr, momentum=0.9, weight_decay=1e-4)
-            scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', patience=3, factor=0.1, min_lr=min_lr)
+            # Training setup
+            model = get_model_for_pipeline(model_dir)
+            model = model.to(device)
             criterion = AlphaLoss()
+            optimizer = optim.SGD(model.parameters(), lr=initial_lr, momentum=0.9, weight_decay=1e-4)
+            scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=num_epoch, eta_min=min_lr)
 
+            # Training loop
             for epoch in range(num_epoch):
-                train_model.train()
+                model.train()
                 total_loss = 0.0
                 
-                pbar = tqdm(train_loader, desc=f"Epoch {epoch + 1}/{num_epoch}")
-                for batch in pbar:
+                for batch in tqdm(train_loader, desc=f"Epoch {epoch + 1}/{num_epoch}"):
                     states_batch, policies_batch, values_batch = [b.to(device) for b in batch]
                     mask = torch.zeros_like(policies_batch).to(device)
                     for i in range(len(policies_batch)):
                         mask[i] = (policies_batch[i] > 0).float()
-
-                    pred_policies, pred_values = train_model(states_batch, mask)
-                    loss = criterion(pred_values, values_batch.view(-1, 1), pred_policies, policies_batch)
-
+                    
                     optimizer.zero_grad()
+                    pred_policies, pred_values = model(states_batch, mask)
+                    loss = criterion(pred_values, values_batch.view(-1, 1), pred_policies, policies_batch)
                     loss.backward()
-                    nn.utils.clip_grad_norm_(train_model.parameters(), max_norm=1.0)
                     optimizer.step()
-
+                    
                     total_loss += loss.item()
-                    pbar.set_postfix(
-                        loss=f"{loss.item():.4f}",
-                        lr=f"{optimizer.param_groups[0]['lr']:.2e}"
-                    )
 
-                    del states_batch, policies_batch, values_batch 
-                    del mask, pred_policies, pred_values, loss
-                    torch.cuda.empty_cache()
+                avg_loss = total_loss / len(train_loader)
+                val_loss = validate_model(model, val_loader, criterion, device)
+                
+                print(f"Epoch {epoch + 1}/{num_epoch} - Train Loss: {avg_loss:.4f}, Val Loss: {val_loss:.4f}")
+                
+                scheduler.step()
 
-                avg_train_loss = total_loss / len(train_loader)
-                
-                # Validate model
-                avg_val_loss = validate_model(train_model, val_loader, criterion, device)
-                
-                print(f"Epoch {epoch+1}/{num_epoch} - "
-                      f"Train Loss: {avg_train_loss:.4f} - "
-                      f"Val Loss: {avg_val_loss:.4f}")
-                
-                scheduler.step(avg_val_loss)
+            # Save best model
+            if val_loss < best_loss:
+                best_loss = val_loss
+                torch.save({
+                    'model_state_dict': model.state_dict(),
+                    'loss': val_loss
+                }, os.path.join(model_dir, 'best_model.pth'))
+                print(f"New best model saved with validation loss: {val_loss:.4f}")
 
-                if avg_val_loss < best_loss:
-                    best_loss = avg_val_loss
-                    print(f"Saving best model with validation loss: {best_loss:.4f}")
-                    torch.save({
-                        'model_state_dict': train_model.state_dict(),
-                        'loss': best_loss,
-                        'epoch': epoch,
-                        'optimizer_state_dict': optimizer.state_dict()
-                    }, os.path.join(model_dir, 'best_model.pth'))
-        
-            del states, policies, values, train_loader, val_loader
+            # Clean up
+            del model
             torch.cuda.empty_cache()
 
-        print(f"Training completed. Best validation loss: {best_loss:.4f}")
+        print("Training pipeline completed successfully.")
 
     except Exception as e:
         print(f"Error in training pipeline: {str(e)}\n{traceback.format_exc()}")
         raise
-    finally:
-        torch.cuda.empty_cache()
+
+if __name__ == "__main__":
+    training_pipeline(
+        num_iterations=100,
+        num_games_per_iteration=100,
+        model_dir="model_checkpoint",
+        num_epoch=10,
+        batch_size=128,
+        device='cuda',
+        initial_lr=0.2,
+        min_lr=0.0002
+    )
