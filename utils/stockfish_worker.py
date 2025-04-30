@@ -15,7 +15,7 @@ class StockfishWorker:
         move = chess.Move.from_uci(move_uci)
         board.push(move)
         try:
-            info = self.engine.analyse(board, chess.engine.Limit(time=self.time_limit))
+            info = self.engine.analyse(board, chess.engine.Limit(time=0.1))
             score = info['score'].white().score(mate_score=1000000)
             if board.turn:
                 score = -score
