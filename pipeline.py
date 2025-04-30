@@ -41,48 +41,48 @@ def self_play(model: ChessNet, num_games: int, max_move_limit: int, replay_buffe
     """
     try:
         device = next(model.parameters()).device
-        
-        # Define a wrapper function to convert NumPy arrays to PyTorch tensors
-        def model_eval_func(obs, legal_actions):
-            # Convert list of numpy arrays to a single numpy array if needed
-            if isinstance(obs, list):
-                obs = np.array(obs)
-            
-            # Convert numpy arrays to torch tensors with correct shape
-            obs_tensor = torch.FloatTensor(obs).to(device)
-            
-            # If this is a batched observation from parallel MCTS
-            if len(obs_tensor.shape) > 3:
-                # Reshape from [batch, num_stack, 14, 8, 8] to [batch, 119, 8, 8]
-                batch_size = obs_tensor.shape[0]
-                obs_tensor = obs_tensor.reshape(batch_size, -1, 8, 8)
-            else:
-                # Reshape from [num_stack, 14, 8, 8] to [1, 119, 8, 8] for a single observation
-                obs_tensor = obs_tensor.reshape(1, -1, 8, 8)
-            
-            # Convert legal_actions to a single numpy array if needed
-            if isinstance(legal_actions, list):
-                legal_actions = np.array(legal_actions)
-                
-            legal_tensor = torch.FloatTensor(legal_actions).to(device)
-            if len(legal_tensor.shape) == 1:
-                legal_tensor = legal_tensor.unsqueeze(0)
-            
-            # Get model predictions
+
+        def _parallel_evaluate(obs_batch: List[np.ndarray], mask_batch: List[np.ndarray]) -> Tuple[np.ndarray, np.ndarray]:
+            """
+            Batched evaluation using a neural network model.
+
+            Args:
+                obs_batch: List of observations (np.ndarray), shape [C, 8, 8] per item
+                mask_batch: List of legal move masks (np.ndarray), shape [A] per item
+                model: The model to evaluate, returns (policy, value)
+                device: 'cuda' or 'cpu'
+
+            Returns:
+                policies: np.ndarray of shape [B, A]
+                values: np.ndarray of shape [B]
+            """
             with torch.no_grad():
-                policy_tensor, value_tensor = model(obs_tensor, legal_tensor)
-            
-            # Convert back to numpy arrays
-            if len(policy_tensor) > 1:
-                # For batch processing
-                policy = [p.cpu().numpy() for p in policy_tensor]
-                value = [v.item() for v in value_tensor]
-            else:
-                # For single input - make sure to return as iterable
-                policy = policy_tensor[0].cpu().numpy()
-                value = [value_tensor.item()]
-            
-            return policy, value
+                # Handle both single input and batch input
+                if not isinstance(obs_batch, list):
+                    obs_batch = [obs_batch]
+                if not isinstance(mask_batch, list):
+                    mask_batch = [mask_batch]
+
+                # Stack input batches
+                states = np.stack(obs_batch)         # [B, C, 8, 8]
+                masks = np.stack(mask_batch)         # [B, A]
+
+                # Convert to tensors
+                state_tensor = torch.from_numpy(states).float().to(device)
+                mask_tensor = torch.from_numpy(masks).float().to(device)
+
+                # Run model
+                policy, value = model(state_tensor, mask_tensor)  # policy [B, A], value [B, 1] or [B]
+
+                # Ensure shapes are right
+                policies = policy.cpu().numpy()                   # [B, A] (already softmaxed)
+                values = value.squeeze(-1).cpu().tolist()         # [B]
+
+                # If single input, return single policy and value
+                if len(obs_batch) == 1:
+                    return policies[0], values[0]
+
+            return policies, values
             
         for game_idx in range(num_games):
             env = ChessEnv()
@@ -95,7 +95,7 @@ def self_play(model: ChessNet, num_games: int, max_move_limit: int, replay_buffe
                 # Use parallel MCTS for better performance
                 move, pi, root_value, best_child_value, next_root = parallel_uct_search(
                     env=env,
-                    eval_func=model_eval_func,
+                    eval_func=_parallel_evaluate,
                     root_node=root_node,
                     c_puct_base=19652,
                     c_puct_init=1.25,
