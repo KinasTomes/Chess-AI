@@ -24,14 +24,4 @@ from core.chess_base_v2 import ChessEnv
 
 env = ChessEnv()
 
-move = ['e2e4', 'e7e5', 'g1f3', 'b8c6', 'f1b5', 'a7a6', 'b5a4', 'g8f6', 'e1g1', 'f8e7']
-
-# for m in move:
-#     obs, _ = env.step(chess.Move.from_uci(m))
-#     print(obs.shape)
-
-np.set_printoptions(threshold=np.inf)
-
-obs, _ = env.step(chess.Move.from_uci('e2e4'))
-print(obs[0:6])
-print(env.board)
+print(env.board.result())

@@ -30,7 +30,7 @@ def get_gpu_id(process_id: int, num_gpus: int) -> int:
     """
     return process_id % num_gpus
 
-def self_play(model: ChessNet, num_games: int, replay_buffer: ReplayBuffer) -> None:
+def self_play(model: ChessNet, num_games: int, max_move_limit: int, replay_buffer: ReplayBuffer) -> None:
     """
     Self-play function to generate training data.
     
@@ -91,7 +91,7 @@ def self_play(model: ChessNet, num_games: int, replay_buffer: ReplayBuffer) -> N
             game_history = []
             move_count = 0
 
-            while not env._is_game_over():
+            while not env._is_game_over() and move_count < max_move_limit:
                 # Use parallel MCTS for better performance
                 move, pi, root_value, best_child_value, next_root = parallel_uct_search(
                     env=env,
@@ -272,7 +272,7 @@ def training_pipeline(num_iterations: int, num_games_per_iteration: int, model_d
             mcts_processes = []
             for i in range(NUM_PROCESSES):
                 gpu_id = get_gpu_id(i, num_gpus)
-                p = mp.Process(target=self_play, args=(mcts_model[gpu_id], num_games_per_iteration // 2, replay_buffer))
+                p = mp.Process(target=self_play, args=(mcts_model[gpu_id], num_games_per_iteration // 2, 200, replay_buffer))
                 mcts_processes.append(p)
                 p.start()
             
