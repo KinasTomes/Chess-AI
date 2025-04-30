@@ -79,7 +79,7 @@ def self_play(model: ChessNet, num_games: int, max_move_limit: int, replay_buffe
                 value = [v.item() for v in value_tensor]
             else:
                 # For single input - make sure to return as iterable
-                policy = [policy_tensor[0].cpu().numpy()]
+                policy = policy_tensor[0].cpu().numpy()
                 value = [value_tensor.item()]
             
             return policy, value
