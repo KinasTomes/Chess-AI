@@ -151,6 +151,12 @@ class ChessEnv(gym.Env):
         return self._observation(), reward, done
     
     def _fen_to_presentation(self, fen: str, turn_color: bool) -> np.ndarray:
+        """
+        Chuyển FEN thành 14 input planes:
+        - 6 planes quân người chơi hiện tại
+        - 6 planes quân đối thủ
+        - 2 planes repetition
+        """
         planes = np.zeros((14, 8, 8), dtype=np.float32)
         board_fen = fen.split(' ')[0]
 
@@ -164,7 +170,11 @@ class ChessEnv(gym.Env):
                 col += int(ch)
             else:
                 player, piece_idx = ChessEnv._fen_piece_map[ch]
-                planes[piece_idx + 6 * (player != turn_color), row, col] = 1
+                # Nếu player == turn_color → là người chơi hiện tại → group 0
+                # Nếu player != turn_color → đối thủ → group 1
+                group = 0 if player == turn_color else 1
+                plane_idx = piece_idx + 6 * group
+                planes[plane_idx, row, col] = 1
                 col += 1
 
         if self._is_repetition(2):
@@ -173,6 +183,7 @@ class ChessEnv(gym.Env):
             planes[13, :, :] = 1
 
         return planes
+
     
     def _observation(self):
         planes = []
