@@ -1,5 +1,4 @@
 import torch
-import random
 from collections import deque
 import numpy as np
 
@@ -28,6 +27,10 @@ class ReplayBuffer:
             torch.from_numpy(np.stack(policies)).float(),  # (B, action_dim)
             torch.from_numpy(np.array(values, dtype=np.float32))  # (B,)
         )
+    
+    def clear(self, num: int) -> None:
+        if len(self.buffer) >= num:
+            self.buffer = deque(list(self.buffer)[num:], maxlen=self.max_size)
 
     def __len__(self):
         return len(self.buffer)

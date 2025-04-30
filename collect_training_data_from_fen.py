@@ -149,7 +149,7 @@ def process_pgn_directory_to_buffer(directory_path: str, save_dir: str = "buffer
         
         # Xử lý từng file PGN
         for pgn_file in pgn_files:
-            print(f"\n📂 Đang xử lý file: {pgn_file}")
+            print(f"📂 Đang xử lý file: {pgn_file}")
             pgn_path = os.path.join(directory_path, pgn_file)
             
             # Đọc file PGN
@@ -181,6 +181,9 @@ def process_pgn_directory_to_buffer(directory_path: str, save_dir: str = "buffer
                     
                     # Thực hiện nước đi
                     env.step(env.chess_coords.move_to_index(move))
+
+                    if env.is_game_over():
+                        break
 
                 # Xác định kết quả ván đấu
                 if env.winner == env.white_player:
@@ -238,13 +241,4 @@ def process_pgn_directory_to_buffer(directory_path: str, save_dir: str = "buffer
         ray.shutdown()
 
 if __name__ == "__main__":
-    timer = Timer()
-    timer.start()
-    
-    split_pgn_file(
-        input_pgn_path=r'sample_data\ficsgamesdb_2024_chess2000.pgn',
-        nums_game=2001,
-        output_dir=r'sample_data\ficsgame_2024_chess2000'
-    )
-    
-    timer.end()
+    process_pgn_directory_to_buffer(r'sample_data\ficsgame_2024_chess2000')
