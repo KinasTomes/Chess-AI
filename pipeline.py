@@ -99,7 +99,7 @@ def self_play(model: ChessNet, num_games: int, max_move_limit: int, replay_buffe
                     root_node=root_node,
                     c_puct_base=19652,
                     c_puct_init=1.25,
-                    num_sims=800,
+                    num_sims=200,
                     num_parallel=8,
                     root_noise=True if move_count < 10 else False,
                     warm_up=True if move_count < 10 else False,
