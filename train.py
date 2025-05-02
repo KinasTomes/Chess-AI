@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import random
+import numpy as np
 from torch.utils.data import DataLoader, TensorDataset, random_split
 from tqdm import tqdm
 from typing import Tuple, List, Dict
@@ -48,9 +49,11 @@ def prepare_dataloader_from_file(file_path: str, batch_size: int, shuffle: bool)
         DataLoader: DataLoader for the data in the file
     """
     data = torch.load(file_path)
-    states = data['states']
-    policies = data['policies']
-    values = data['values']
+    
+    # Convert numpy arrays to tensors if needed
+    states = torch.FloatTensor(data['states']) if isinstance(data['states'], np.ndarray) else data['states']
+    policies = torch.FloatTensor(data['policies']) if isinstance(data['policies'], np.ndarray) else data['policies']
+    values = torch.FloatTensor(data['values']) if isinstance(data['values'], np.ndarray) else data['values']
     
     dataset = TensorDataset(states, policies, values)
     
@@ -81,9 +84,15 @@ def prepare_validation_data(val_files: List[str], batch_size: int) -> Tuple[torc
     
     for file_path in val_files:
         data = torch.load(file_path)
-        all_states.append(data['states'])
-        all_policies.append(data['policies'])
-        all_values.append(data['values'])
+        
+        # Convert numpy arrays to tensors if needed
+        states = torch.FloatTensor(data['states']) if isinstance(data['states'], np.ndarray) else data['states']
+        policies = torch.FloatTensor(data['policies']) if isinstance(data['policies'], np.ndarray) else data['policies']
+        values = torch.FloatTensor(data['values']) if isinstance(data['values'], np.ndarray) else data['values']
+        
+        all_states.append(states)
+        all_policies.append(policies)
+        all_values.append(values)
     
     # Concatenate data from all validation files
     states = torch.cat(all_states, dim=0)
@@ -206,9 +215,7 @@ def train_from_saved_data(model_dir: str, data_dir: str, num_epoch: int = 10,
             
             for batch in tqdm(train_loader, desc=f"Training"):
                 states_batch, policies_batch, values_batch = [b.to(device) for b in batch]
-                mask = torch.zeros_like(policies_batch).to(device)
-                for i in range(len(policies_batch)):
-                    mask[i] = (policies_batch[i] > 0).float()
+                mask = (policies_batch > 0).float()
                 
                 optimizer.zero_grad()
                 pred_policies, pred_values = model(states_batch, mask)
