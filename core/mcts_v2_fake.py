@@ -370,6 +370,8 @@ def parallel_uct_search(env: ChessEnv, eval_func: Callable[[np.ndarray, np.ndarr
             batched_nodes, batched_obs, batched_mask = map(list, zip(*leaves))
             policies, values = eval_func(batched_obs, batched_mask)
 
+            print(len(batched_nodes), len(policies), len(values))
+
             for leaf, policy, value in zip(batched_nodes, policies, values):
                 revert_virtual_loss(leaf)
 

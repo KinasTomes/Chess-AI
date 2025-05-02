@@ -42,7 +42,7 @@ def self_play(model: ChessNet, num_games: int, max_move_limit: int, replay_buffe
     try:
         device = next(model.parameters()).device
 
-        def _parallel_evaluate(obs_batch: List[np.ndarray], mask_batch: List[np.ndarray]) -> Tuple[np.ndarray, np.ndarray]:
+        def _parallel_evaluate(obs_batch: List[np.ndarray], mask_batch: List[np.ndarray]) -> Tuple[np.ndarray, List[float]]:
             """
             Batched evaluation using a neural network model.
 
@@ -54,7 +54,7 @@ def self_play(model: ChessNet, num_games: int, max_move_limit: int, replay_buffe
 
             Returns:
                 policies: np.ndarray of shape [B, A]
-                values: np.ndarray of shape [B]
+                values: List[float] of length B
             """
             with torch.no_grad():
                 # Handle both single input and batch input
@@ -78,7 +78,7 @@ def self_play(model: ChessNet, num_games: int, max_move_limit: int, replay_buffe
                 policies = policy.cpu().numpy()                   # [B, A] (already softmaxed)
                 values = value.squeeze(-1).cpu().tolist()         # [B]
 
-                # If single input, return single policy and value
+                # If single input, return single policy but keep values as list
                 if len(obs_batch) == 1:
                     return policies[0], values[0]
 
