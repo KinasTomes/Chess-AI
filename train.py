@@ -61,7 +61,7 @@ def prepare_dataloader_from_file(file_path: str, batch_size: int, shuffle: bool)
         dataset,
         batch_size=batch_size,
         shuffle=shuffle,
-        num_workers=0,
+        num_workers=4,  # Increase workers for better data loading performance
         pin_memory=True
     )
     
@@ -105,7 +105,7 @@ def prepare_validation_data(val_files: List[str], batch_size: int) -> Tuple[torc
         dataset,
         batch_size=batch_size,
         shuffle=False,
-        num_workers=0,
+        num_workers=4,  # Increase workers for better data loading performance
         pin_memory=True
     )
     
@@ -142,7 +142,7 @@ def validate_model(model: nn.Module, val_loader: DataLoader, criterion: nn.Modul
 def train_from_saved_data(model_dir: str, data_dir: str, num_epoch: int = 10, 
                          batch_size: int = 128, device: str = 'cuda', 
                          initial_lr: float = 0.2, min_lr: float = 0.0002,
-                         val_split: float = 0.1):
+                         val_split: float = 0.1, use_multi_gpu: bool = True):
     """
     Train the model using saved data from .pt files.
     
@@ -155,14 +155,35 @@ def train_from_saved_data(model_dir: str, data_dir: str, num_epoch: int = 10,
         initial_lr (float): Initial learning rate.
         min_lr (float): Minimum learning rate.
         val_split (float): Proportion of files to use for validation.
+        use_multi_gpu (bool): Whether to use multiple GPUs if available.
     """
     # Check if device is available
     if device == 'cuda' and not torch.cuda.is_available():
         print("CUDA is not available. Using CPU instead.")
         device = 'cpu'
     
+    # Check if multiple GPUs are available
+    num_gpus = torch.cuda.device_count()
+    if use_multi_gpu and num_gpus > 1 and device == 'cuda':
+        print(f"Using {num_gpus} GPUs for training")
+        multi_gpu = True
+        # Increase batch size proportionally to the number of GPUs
+        effective_batch_size = batch_size * num_gpus
+        print(f"Effective batch size increased to {effective_batch_size}")
+    else:
+        multi_gpu = False
+        effective_batch_size = batch_size
+        if device == 'cuda':
+            print(f"Using single GPU for training")
+        else:
+            print(f"Using CPU for training")
+    
     # Load model
     model = get_model_for_training(model_dir)
+    
+    # Move model to device and wrap with DataParallel if using multiple GPUs
+    if multi_gpu:
+        model = nn.DataParallel(model)
     model = model.to(device)
     
     if not os.path.exists(data_dir):
@@ -183,11 +204,15 @@ def train_from_saved_data(model_dir: str, data_dir: str, num_epoch: int = 10,
     
     # Prepare validation data (load all validation files at once)
     print("Loading validation data...")
-    _, _, _, val_loader = prepare_validation_data(val_files, batch_size)
+    _, _, _, val_loader = prepare_validation_data(val_files, effective_batch_size)
     
     # Training setup
     criterion = AlphaLoss()
-    optimizer = optim.SGD(model.parameters(), lr=initial_lr, momentum=0.9, weight_decay=1e-4)
+    
+    # Get model parameters (handle DataParallel case)
+    model_params = model.module.parameters() if multi_gpu else model.parameters()
+    
+    optimizer = optim.SGD(model_params, lr=initial_lr, momentum=0.9, weight_decay=1e-4)
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=num_epoch, eta_min=min_lr)
     
     # Track best model
@@ -207,7 +232,7 @@ def train_from_saved_data(model_dir: str, data_dir: str, num_epoch: int = 10,
             print(f"Epoch {epoch + 1}/{num_epoch}, File {file_idx + 1}/{len(train_files)}: {os.path.basename(file_path)}")
             
             # Load data from a single file
-            train_loader = prepare_dataloader_from_file(file_path, batch_size, shuffle=True)
+            train_loader = prepare_dataloader_from_file(file_path, effective_batch_size, shuffle=True)
             
             # Train on this file
             file_loss = 0.0
@@ -245,8 +270,10 @@ def train_from_saved_data(model_dir: str, data_dir: str, num_epoch: int = 10,
         # Save best model
         if val_loss < best_loss:
             best_loss = val_loss
+            # Save the underlying model (not the DataParallel wrapper)
+            model_to_save = model.module.state_dict() if multi_gpu else model.state_dict()
             torch.save({
-                'model_state_dict': model.state_dict(),
+                'model_state_dict': model_to_save,
                 'loss': val_loss
             }, os.path.join(model_dir, 'best_model.pth'))
             print(f"New best model saved with validation loss: {val_loss:.4f}")
@@ -263,5 +290,6 @@ if __name__ == "__main__":
         device='cuda',
         initial_lr=0.2,
         min_lr=0.0002,
-        val_split=0.1
+        val_split=0.1,
+        use_multi_gpu=True  # Set to True to use multiple GPUs
     ) 
